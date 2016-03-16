@@ -245,6 +245,7 @@ mod test {
 
             let mut ftsent = fts_read( fts );
             while !ftsent.is_null() {
+                println!( "{:?}", *ftsent );
                 ftsent_valid( ftsent );
                 ftsent = fts_read( fts );
             }
@@ -265,6 +266,7 @@ mod test {
             let _ = fts_read( fts );
             let mut ftsent = fts_children( fts, 0 );
             while !ftsent.is_null() {
+                println!( "{:?}", *ftsent );
                 ftsent_valid( ftsent );
                 ftsent = (*ftsent).fts_link;
             }
