@@ -1,4 +1,5 @@
 export RUST_TEST_THREADS=1
+export RUST_BACKTRACE=1
 
 .PHONY: default run bench doc test clean watch_run watch_bench watch_doc watch_test
 
@@ -14,7 +15,7 @@ doc:
 	cargo doc --no-deps
 
 test:
-	cargo test -- --nocapture
+	cargo test --verbose -- --nocapture
 
 clean:
 	cargo clean
