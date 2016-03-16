@@ -1,5 +1,11 @@
 use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, ino_t, nlink_t, stat};
 
+#[cfg(target_os="linux")]
+pub type inode_t = ino_t;
+
+#[cfg(target_os="macos")]
+pub type inode_t = u32;
+
 /// struct FTS in fts.h ( opaque struct )
 pub enum FTS {}
 
@@ -30,7 +36,7 @@ pub struct FTSENT {
     /// strlen(fts_name)
     pub fts_namelen: c_ushort     ,
     /// inode
-    pub fts_ino    : ino_t        ,
+    pub fts_ino    : inode_t      ,
     /// device
     pub fts_dev    : dev_t        ,
     /// link count
