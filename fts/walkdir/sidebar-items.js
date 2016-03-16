@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["DirEntry",""],["FileType",""],["Iter",""],["WalkDir","A builder to create an iterator for directory walking."],["WalkDirConf",""]]});

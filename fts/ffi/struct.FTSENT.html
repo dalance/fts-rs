@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `FTSENT` struct in crate `fts`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, FTSENT">
+
+    <title>fts::ffi::FTSENT - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>fts</a>::<wbr><a href='index.html'>ffi</a></p><script>window.sidebarCurrent = {name: 'FTSENT', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>fts</a>::<wbr><a href='index.html'>ffi</a>::<wbr><a class='struct' href=''>FTSENT</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-12' class='srclink' href='../../src/fts/src/ffi.rs.html#9-50' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct FTSENT {
+    pub fts_cycle: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
+    pub fts_parent: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
+    pub fts_link: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
+    pub fts_number: c_long,
+    pub fts_pointer: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_void,
+    pub fts_accpath: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_char,
+    pub fts_path: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_char,
+    pub fts_errno: c_int,
+    pub fts_symfd: c_int,
+    pub fts_pathlen: c_ushort,
+    pub fts_namelen: c_ushort,
+    pub fts_ino: c_ulong,
+    pub fts_dev: c_ulong,
+    pub fts_nlink: c_ulong,
+    pub fts_level: c_short,
+    pub fts_info: c_ushort,
+    pub fts_flags: c_ushort,
+    pub fts_instr: c_ushort,
+    pub fts_statp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>stat,
+    pub fts_name: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a>c_char<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; 1]</a>,
+}</pre><div class='docblock'><p>struct FTSENT in fts.h</p>
+</div><h2 class='fields'>Fields</h2>
+<table><tr class='stab '>
+                                  <td id='structfield.fts_cycle'><code>fts_cycle</code></td><td><div class='docblock'><p>cycle node</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_parent'><code>fts_parent</code></td><td><div class='docblock'><p>parent directory</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_link'><code>fts_link</code></td><td><div class='docblock'><p>next file in directory</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_number'><code>fts_number</code></td><td><div class='docblock'><p>local numeric value</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_pointer'><code>fts_pointer</code></td><td><div class='docblock'><p>local address value</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_accpath'><code>fts_accpath</code></td><td><div class='docblock'><p>access path</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_path'><code>fts_path</code></td><td><div class='docblock'><p>root path</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_errno'><code>fts_errno</code></td><td><div class='docblock'><p>errno for this node</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_symfd'><code>fts_symfd</code></td><td><div class='docblock'><p>fd for symlink</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_pathlen'><code>fts_pathlen</code></td><td><div class='docblock'><p>strlen(fts_path)</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_namelen'><code>fts_namelen</code></td><td><div class='docblock'><p>strlen(fts_name)</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_ino'><code>fts_ino</code></td><td><div class='docblock'><p>inode</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_dev'><code>fts_dev</code></td><td><div class='docblock'><p>device</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_nlink'><code>fts_nlink</code></td><td><div class='docblock'><p>link count</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_level'><code>fts_level</code></td><td><div class='docblock'><p>depth (-1 to N)</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_info'><code>fts_info</code></td><td><div class='docblock'><p>user flags for FTSENT structure</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_flags'><code>fts_flags</code></td><td><div class='docblock'><p>private flags for FTSENT structure</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_instr'><code>fts_instr</code></td><td><div class='docblock'><p>fts_set() instructions</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_statp'><code>fts_statp</code></td><td><div class='docblock'><p>stat(2) information</p>
+</div></td></tr><tr class='stab '>
+                                  <td id='structfield.fts_name'><code>fts_name</code></td><td><div class='docblock'><p>file name</p>
+</div></td></tr></table><h2 id='implementations'>Trait Implementations</h2><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "fts";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

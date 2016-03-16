@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["COMFOLLOW","follow command line symlinks"],["LOGICAL","logical walk"],["NOCHDIR","don't change directories"],["NOSTAT","don't get stat info"],["PHYSICAL","physical walk"],["SEEDOT","return dot and dot-dot"],["XDEV","don't cross devices"]],"struct":[["Flags",""]]});

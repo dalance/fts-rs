@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["FtsError",""],["FtsInfo",""],["FtsSetOption",""]],"mod":[["fts_option",""]],"struct":[["Fts",""],["FtsEntry",""]]});

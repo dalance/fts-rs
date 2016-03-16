@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `ffi` mod in crate `fts`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, ffi">
+
+    <title>fts::ffi - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>fts</a></p><script>window.sidebarCurrent = {name: 'ffi', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>fts</a>::<wbr><a class='mod' href=''>ffi</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-8' class='srclink' href='../../src/fts/src/ffi.rs.html#1-276' title='goto source code'>[src]</a></span></h1>
+<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='struct' href='struct.FTSENT.html'
+                               title='fts::ffi::FTSENT'>FTSENT</a></td>
+                        <td class='docblock short'>
+                             <p>struct FTSENT in fts.h</p>
+                        </td>
+                    </tr>
+                </table><h2 id='enums' class='section-header'><a href="#enums">Enums</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='enum' href='enum.FTS.html'
+                               title='fts::ffi::FTS'>FTS</a></td>
+                        <td class='docblock short'>
+                             <p>struct FTS in fts.h ( opaque struct )</p>
+                        </td>
+                    </tr>
+                </table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_AGAIN.html'
+                               title='fts::ffi::FTS_AGAIN'>FTS_AGAIN</a></td>
+                        <td class='docblock short'>
+                             <p>fts_instr: read node again</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_COMFOLLOW.html'
+                               title='fts::ffi::FTS_COMFOLLOW'>FTS_COMFOLLOW</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: follow command line symlinks</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_D.html'
+                               title='fts::ffi::FTS_D'>FTS_D</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: preorder directory</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DC.html'
+                               title='fts::ffi::FTS_DC'>FTS_DC</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: directory that causes cycles</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DEFAULT.html'
+                               title='fts::ffi::FTS_DEFAULT'>FTS_DEFAULT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: none of the above</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DNR.html'
+                               title='fts::ffi::FTS_DNR'>FTS_DNR</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: unreadable directory</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DONTCHDIR.html'
+                               title='fts::ffi::FTS_DONTCHDIR'>FTS_DONTCHDIR</a></td>
+                        <td class='docblock short'>
+                             <p>fts_flags: don&#39;t chdir .. to the parent</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DOT.html'
+                               title='fts::ffi::FTS_DOT'>FTS_DOT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: dot or dot-dot</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_DP.html'
+                               title='fts::ffi::FTS_DP'>FTS_DP</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: postorder directory</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_ERR.html'
+                               title='fts::ffi::FTS_ERR'>FTS_ERR</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: error; errno is set</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_F.html'
+                               title='fts::ffi::FTS_F'>FTS_F</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: regular file</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_FOLLOW.html'
+                               title='fts::ffi::FTS_FOLLOW'>FTS_FOLLOW</a></td>
+                        <td class='docblock short'>
+                             <p>fts_instr: follow symbolic link</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_INIT.html'
+                               title='fts::ffi::FTS_INIT'>FTS_INIT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: initialized only</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_LOGICAL.html'
+                               title='fts::ffi::FTS_LOGICAL'>FTS_LOGICAL</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: logical walk</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NAMEONLY.html'
+                               title='fts::ffi::FTS_NAMEONLY'>FTS_NAMEONLY</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: (private) child names only</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NOCHDIR.html'
+                               title='fts::ffi::FTS_NOCHDIR'>FTS_NOCHDIR</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: don&#39;t change directories</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NOINSTR.html'
+                               title='fts::ffi::FTS_NOINSTR'>FTS_NOINSTR</a></td>
+                        <td class='docblock short'>
+                             <p>fts_instr: no instructions</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NOSTAT.html'
+                               title='fts::ffi::FTS_NOSTAT'>FTS_NOSTAT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: don&#39;t get stat info</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NS.html'
+                               title='fts::ffi::FTS_NS'>FTS_NS</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: stat(2) failed</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_NSOK.html'
+                               title='fts::ffi::FTS_NSOK'>FTS_NSOK</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: no stat(2) requested</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_OPTIONMASK.html'
+                               title='fts::ffi::FTS_OPTIONMASK'>FTS_OPTIONMASK</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: valid user option mask</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_PHYSICAL.html'
+                               title='fts::ffi::FTS_PHYSICAL'>FTS_PHYSICAL</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: physical walk</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_ROOTLEVEL.html'
+                               title='fts::ffi::FTS_ROOTLEVEL'>FTS_ROOTLEVEL</a></td>
+                        <td class='docblock short'>
+                             <p>fts_level: level of root</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_ROOTPARENTLEVEL.html'
+                               title='fts::ffi::FTS_ROOTPARENTLEVEL'>FTS_ROOTPARENTLEVEL</a></td>
+                        <td class='docblock short'>
+                             <p>fts_level: level of root parent</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_SEEDOT.html'
+                               title='fts::ffi::FTS_SEEDOT'>FTS_SEEDOT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: return dot and dot-dot</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_SKIP.html'
+                               title='fts::ffi::FTS_SKIP'>FTS_SKIP</a></td>
+                        <td class='docblock short'>
+                             <p>fts_instr: discard node</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_SL.html'
+                               title='fts::ffi::FTS_SL'>FTS_SL</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: symbolic link</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_SLNONE.html'
+                               title='fts::ffi::FTS_SLNONE'>FTS_SLNONE</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: symbolic link without target</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_STOP.html'
+                               title='fts::ffi::FTS_STOP'>FTS_STOP</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: (private) unrecoverable error</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_SYMFOLLOW.html'
+                               title='fts::ffi::FTS_SYMFOLLOW'>FTS_SYMFOLLOW</a></td>
+                        <td class='docblock short'>
+                             <p>fts_flags: followed a symlink to get here</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_W.html'
+                               title='fts::ffi::FTS_W'>FTS_W</a></td>
+                        <td class='docblock short'>
+                             <p>fts_info: whiteout object</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_WHITEOUT.html'
+                               title='fts::ffi::FTS_WHITEOUT'>FTS_WHITEOUT</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: return whiteout information</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='constant' href='constant.FTS_XDEV.html'
+                               title='fts::ffi::FTS_XDEV'>FTS_XDEV</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open options: don&#39;t cross devices</p>
+                        </td>
+                    </tr>
+                </table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.fts_children.html'
+                               title='fts::ffi::fts_children'>fts_children</a></td>
+                        <td class='docblock short'>
+                             <p>fts_children() in fts.h</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.fts_close.html'
+                               title='fts::ffi::fts_close'>fts_close</a></td>
+                        <td class='docblock short'>
+                             <p>fts_close() in fts.h</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.fts_open.html'
+                               title='fts::ffi::fts_open'>fts_open</a></td>
+                        <td class='docblock short'>
+                             <p>fts_open() in fts.h</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.fts_read.html'
+                               title='fts::ffi::fts_read'>fts_read</a></td>
+                        <td class='docblock short'>
+                             <p>fts_read() in fts.h</p>
+                        </td>
+                    </tr>
+                
+                    <tr class=' module-item'>
+                        <td><a class='fn' href='fn.fts_set.html'
+                               title='fts::ffi::fts_set'>fts_set</a></td>
+                        <td class='docblock short'>
+                             <p>fts_set() in fts.h</p>
+                        </td>
+                    </tr>
+                </table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "fts";
+        window.playgroundUrl = "";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
