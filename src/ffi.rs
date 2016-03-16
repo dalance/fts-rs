@@ -1,4 +1,4 @@
-use libc::{stat, c_int, c_char, c_short, c_ushort, c_ulong, c_long, c_void};
+use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, ino_t, nlink_t, stat};
 
 /// struct FTS in fts.h ( opaque struct )
 pub enum FTS {}
@@ -30,11 +30,11 @@ pub struct FTSENT {
     /// strlen(fts_name)
     pub fts_namelen: c_ushort     ,
     /// inode
-    pub fts_ino    : c_ulong      ,
+    pub fts_ino    : ino_t        ,
     /// device
-    pub fts_dev    : c_ulong      ,
+    pub fts_dev    : dev_t        ,
     /// link count
-    pub fts_nlink  : c_ulong      ,
+    pub fts_nlink  : nlink_t      ,
     /// depth (-1 to N)
     pub fts_level  : c_short      ,
     /// user flags for FTSENT structure
