@@ -4,7 +4,7 @@ use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, ino_t, nlink
 pub enum FTS {}
 
 /// struct FTSENT in fts.h
-#[repr(C)]
+#[repr(C,packed)]
 #[derive(Debug)]
 pub struct FTSENT {
     /// cycle node
