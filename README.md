@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/dalance/fts-rs.svg?branch=master)](https://travis-ci.org/dalance/fts-rs)
 
 Bindings for libc fts, and a library for high performance directory walking.
-Currently a supported platform is Linux only.
 
 [Documentation](http://dalance.github.io/fts-rs/fts/)
 
