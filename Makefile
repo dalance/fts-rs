@@ -14,6 +14,7 @@ doc:
 	cargo doc --no-deps
 
 test:
+	stat .git
 	cargo test -- --nocapture
 
 clean:
