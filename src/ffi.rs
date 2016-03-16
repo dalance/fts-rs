@@ -1,10 +1,14 @@
+#[cfg(target_os="linux")]
 use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, ino_t, nlink_t, stat};
 
+#[cfg(target_os="macos")]
+use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, nlink_t, stat};
+
 #[cfg(target_os="linux")]
-pub type inode_t = ino_t;
+pub type Inode = ino_t;
 
 #[cfg(target_os="macos")]
-pub type inode_t = u32;
+pub type Inode = u32;
 
 /// struct FTS in fts.h ( opaque struct )
 pub enum FTS {}
@@ -36,7 +40,7 @@ pub struct FTSENT {
     /// strlen(fts_name)
     pub fts_namelen: c_ushort     ,
     /// inode
-    pub fts_ino    : inode_t      ,
+    pub fts_ino    : Inode        ,
     /// device
     pub fts_dev    : dev_t        ,
     /// link count
@@ -251,7 +255,6 @@ mod test {
 
             let mut ftsent = fts_read( fts );
             while !ftsent.is_null() {
-                println!( "{:?}", *ftsent );
                 ftsent_valid( ftsent );
                 ftsent = fts_read( fts );
             }
@@ -272,7 +275,6 @@ mod test {
             let _ = fts_read( fts );
             let mut ftsent = fts_children( fts, 0 );
             while !ftsent.is_null() {
-                println!( "{:?}", *ftsent );
                 ftsent_valid( ftsent );
                 ftsent = (*ftsent).fts_link;
             }
