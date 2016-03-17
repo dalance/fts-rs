@@ -12,7 +12,7 @@ A Rust library for high performance directory walking using libc fts.
 
 ```Cargo.toml
 [dependencies]
-fts-rs = "*"
+fts = "*"
 ```
 
 ## Example
