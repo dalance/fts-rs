@@ -1,6 +1,7 @@
 # fts-rs
 
 [![Build Status](https://img.shields.io/travis/dalance/fts-rs.svg)](https://travis-ci.org/dalance/fts-rs)
+[![coveralls.io](https://img.shields.io/coveralls/dalance/fts-rs.svg)](https://coveralls.io/github/dalance/fts-rs)
 [![crates.io](https://img.shields.io/crates/v/fts.svg)](https://crates.io/crates/fts)
 
 Bindings for libc fts, and a library for high performance directory walking.

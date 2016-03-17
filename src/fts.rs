@@ -191,8 +191,10 @@ impl Drop for Fts {
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::fs::{Permissions, set_permissions};
     use std::path::PathBuf;
     use std::io;
+    use std::os::unix::fs::PermissionsExt;
 
     fn check_entry( entry: FtsEntry, is_logical: bool ) {
         if entry.path == PathBuf::from( "test" ) {
@@ -250,6 +252,8 @@ mod test {
 
     #[test]
     fn logical() {
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
+
         let paths = vec![String::from( "test" )];
         let mut fts = Fts::new( paths, fts_option::LOGICAL ).unwrap();
 
@@ -261,11 +265,15 @@ mod test {
             ftsent = fts.read();
             i += 1;
         }
-        assert_eq!( i, 14 );
+        assert_eq!( i, 13 );
+
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
 
     #[test]
     fn physical() {
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
+
         let paths = vec![String::from( "test" )];
         let mut fts = Fts::new( paths, fts_option::PHYSICAL ).unwrap();
 
@@ -277,6 +285,8 @@ mod test {
             ftsent = fts.read();
             i += 1;
         }
-        assert_eq!( i, 14 );
+        assert_eq!( i, 13 );
+
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
 }

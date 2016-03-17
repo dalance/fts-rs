@@ -264,18 +264,29 @@ mod test {
     #[test]
     fn normal() {
         let path = Path::new( "test" );
-        for p in WalkDir::new( WalkDirConf::new( path ) ) {
-            println!( "{:?}", p.unwrap() );
+        let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
+        let mut cnt = 0;
+        let mut len = 0;
+        for p in iter {
+            cnt += 1;
+            len += p.metadata().unwrap().len();
         }
+        assert_eq!( cnt, 14 );
+        assert_eq!( len, 362 );
     }
 
     #[test]
     fn filter() {
         let path = Path::new( "test" );
         let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
+        let mut cnt = 0;
+        let mut len = 0;
         for p in iter.filter( |x| x.file_type().is_file() ) {
-            println!( "{:?}", p );
+            cnt += 1;
+            len += p.metadata().unwrap().len();
         }
+        assert_eq!( cnt, 3 );
+        assert_eq!( len, 0 );
     }
 }
 
