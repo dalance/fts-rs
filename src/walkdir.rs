@@ -268,5 +268,14 @@ mod test {
             println!( "{:?}", p.unwrap() );
         }
     }
+
+    #[test]
+    fn filter() {
+        let path = Path::new( "test" );
+        let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
+        for p in iter.filter( |x| x.file_type().is_file() ) {
+            println!( "{:?}", p );
+        }
+    }
 }
 
