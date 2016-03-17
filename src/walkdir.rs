@@ -266,13 +266,10 @@ mod test {
         let path = Path::new( "test" );
         let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
         let mut cnt = 0;
-        let mut len = 0;
-        for p in iter {
+        for _ in iter {
             cnt += 1;
-            len += p.metadata().unwrap().len();
         }
         assert_eq!( cnt, 14 );
-        assert_eq!( len, 362 );
     }
 
     #[test]
