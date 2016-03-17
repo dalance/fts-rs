@@ -2,6 +2,10 @@ sudo: false
 
 language: rust
 
+env:
+  global:
+    - RUST_TEST_THREADS=1
+
 addons:
   apt:
     packages:
