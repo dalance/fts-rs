@@ -4,7 +4,7 @@
 [![coveralls.io](https://img.shields.io/coveralls/dalance/fts-rs.svg)](https://coveralls.io/github/dalance/fts-rs)
 [![crates.io](https://img.shields.io/crates/v/fts.svg)](https://crates.io/crates/fts)
 
-Bindings for libc fts, and a library for high performance directory walking.
+A Rust library for high performance directory walking using libc fts.
 
 [Documentation](http://dalance.github.io/fts-rs/fts/)
 
@@ -16,6 +16,18 @@ fts-rs = "*"
 ```
 
 ## Example
+
+Use `WalkDir` for directory walking:
+
+```rust,no_run
+use std::path::Path;
+use fts::walkdir::{WalkDir, WalkDirConf}
+
+let path = Path::new( "." );
+for p in WalkDir::new( WalkDirConf::new( path ) ) {
+    println!( "{:?}", p.unwrap() );
+}
+```
 
 Call fts_* function directly:
 
@@ -30,22 +42,10 @@ let _ftsent = unsafe { fts_read ( fts ) };
 let _       = unsafe { fts_close( fts ) };
 ```
 
-Use `WalkDir` for directory walking:
-
-```rust,no_run
-use std::path::Path;
-use fts::walkdir::{WalkDir, WalkDirConf}
-
-let path = Path::new( "." );
-for p in WalkDir::new( WalkDirConf::new( path ) ) {
-    println!( "{:?}", p.unwrap() );
-}
-```
-
 ## Benchmark
 
 A `cargo bench` result is the following.
-`fts_walkdir` is this library, `readdir` is `std::fs:read_dir`, `walkdir` is [walkdir::WaikDir](https://github.com/BurntSushi/walkdir).
+`fts_walkdir` is this library, `readdir` is `std::fs:read_dir`, `walkdir` is [walkdir::WalkDir](https://github.com/BurntSushi/walkdir).
 a suffix `_metadata` means using call `DirEntry::metadata()`.
 
 ```

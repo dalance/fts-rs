@@ -192,9 +192,9 @@ impl Drop for Fts {
 mod test {
     use super::*;
     use std::fs::{Permissions, set_permissions};
-    use std::path::PathBuf;
     use std::io;
     use std::os::unix::fs::PermissionsExt;
+    use std::path::PathBuf;
 
     fn check_entry( entry: FtsEntry, is_logical: bool ) {
         if entry.path == PathBuf::from( "test" ) {

@@ -259,21 +259,29 @@ impl IntoIterator for WalkDir {
 #[cfg(test)]
 mod test {
     use super::*;
+    use std::fs::{Permissions, set_permissions};
+    use std::os::unix::fs::PermissionsExt;
     use std::path::Path;
 
     #[test]
     fn normal() {
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
+
         let path = Path::new( "test" );
         let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
         let mut cnt = 0;
         for _ in iter {
             cnt += 1;
         }
-        assert_eq!( cnt, 14 );
+        assert_eq!( cnt, 12 );
+
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
 
     #[test]
     fn filter() {
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
+
         let path = Path::new( "test" );
         let iter = WalkDir::new( WalkDirConf::new( path ) ).into_iter().filter_map( |x| x.ok() );
         let mut cnt = 0;
@@ -282,8 +290,19 @@ mod test {
             cnt += 1;
             len += p.metadata().unwrap().len();
         }
-        assert_eq!( cnt, 3 );
+        assert_eq!( cnt, 2 );
         assert_eq!( len, 0 );
+
+        let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
+    }
+
+    #[test]
+    fn no_stat() {
+        let path = Path::new( "test" );
+        let iter = WalkDir::new( WalkDirConf::new( path ).no_metadata() ).into_iter().filter_map( |x| x.ok() );
+        for p in iter {
+            assert!( p.metadata().is_none() );
+        }
     }
 }
 

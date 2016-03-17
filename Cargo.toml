@@ -1,12 +1,13 @@
 [package]
 name = "fts"
-version = "0.1.0"
+version = "0.1.2"
 authors = ["dalance <dalance@gmail.com>"]
 repository = "https://github.com/dalance/fts-rs"
 license = "MIT"
 readme = "README.md"
-description = "Bindings for libc fts, and a library for high performance directory walking"
+description = "A Rust library for high performance directory walking using libc fts"
 documentation = "http://dalance.github.io/fts-rs/fts"
+keywords = ["libc", "directory", "walk", "recursive", "iterator"]
 exclude = ["test/*"]
 
 [dependencies]
