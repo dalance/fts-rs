@@ -6,7 +6,8 @@ repository = "https://github.com/dalance/fts-rs"
 license = "MIT"
 readme = "README.md"
 description = "Bindings for libc fts, and a library for high performance directory walking"
-documentation = "http://dalance.github.io/fts-rs/fts-rs"
+documentation = "http://dalance.github.io/fts-rs/fts"
+exclude = ["test/*"]
 
 [dependencies]
 bitflags       = "0.5.0"

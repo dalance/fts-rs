@@ -4,7 +4,6 @@
 [![crates.io](https://img.shields.io/crates/v/fts.svg)](https://crates.io/crates/fts)
 
 Bindings for libc fts, and a library for high performance directory walking.
-Currently a supported platform is Linux only.
 
 [Documentation](http://dalance.github.io/fts-rs/fts/)
 
