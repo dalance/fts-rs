@@ -1,14 +1,39 @@
-#[cfg(target_os="linux")]
-use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, ino_t, nlink_t, stat};
-
-#[cfg(target_os="macos")]
-use libc::{c_char, c_long, c_int, c_short, c_ushort, c_void, dev_t, nlink_t, stat};
+use libc::*;
 
 #[cfg(target_os="linux")]
 pub type Inode = ino_t;
 
 #[cfg(target_os="macos")]
 pub type Inode = u32;
+
+#[cfg(target_os="linux")]
+pub type Stat = stat;
+
+#[cfg(target_os="macos")]
+pub struct Stat {
+    pub st_dev           : dev_t       ,
+    pub st_mode          : mode_t      ,
+    pub st_nlink         : nlink_t     ,
+    pub st_ino           : u32         ,
+    pub st_uid           : uid_t       ,
+    pub st_gid           : gid_t       ,
+    pub st_rdev          : dev_t       ,
+    pub st_atime         : time_t      ,
+    pub st_atime_nsec    : c_long      ,
+    pub st_mtime         : time_t      ,
+    pub st_mtime_nsec    : c_long      ,
+    pub st_ctime         : time_t      ,
+    pub st_ctime_nsec    : c_long      ,
+    pub st_birthtime     : time_t      ,
+    pub st_birthtime_nsec: c_long      ,
+    pub st_size          : off_t       ,
+    pub st_blocks        : blkcnt_t    ,
+    pub st_blksize       : blksize_t   ,
+    pub st_flags         : uint32_t    ,
+    pub st_gen           : uint32_t    ,
+    pub st_lspare        : int32_t     ,
+    pub st_qspare        : [int64_t; 2],
+}
 
 /// struct FTS in fts.h ( opaque struct )
 pub enum FTS {}
@@ -54,7 +79,7 @@ pub struct FTSENT {
     /// fts_set() instructions
     pub fts_instr  : c_ushort     ,
     /// stat(2) information
-    pub fts_statp  : *const stat  ,
+    pub fts_statp  : *const Stat  ,
     /// file name
     pub fts_name   : [c_char;1]   ,
 }
