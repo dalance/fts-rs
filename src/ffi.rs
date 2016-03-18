@@ -10,6 +10,7 @@ pub type Inode = u32;
 pub type Stat = stat;
 
 #[cfg(target_os="macos")]
+#[repr(C)]
 pub struct Stat {
     pub st_dev           : dev_t       ,
     pub st_mode          : mode_t      ,
