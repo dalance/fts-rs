@@ -208,7 +208,7 @@ impl Drop for Fts {
 pub type FtsCompIn   = *const *const ffi::FTSENT;
 pub type FtsCompFunc = extern "C" fn( FtsCompIn, FtsCompIn ) -> c_int;
 
-pub struct FtsComp {}
+pub struct FtsComp;
 
 impl FtsComp {
     pub extern "C" fn by_name_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
