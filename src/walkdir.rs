@@ -95,7 +95,7 @@ impl Iterator for Iter {
         let ret = self.fts.read();
         if ret.is_some() {
             let ent = ret.unwrap();
-            if ent.info == FtsInfo::IsErr || ent.info == FtsInfo::IsDontRead {
+            if ent.info == FtsInfo::IsErr || ent.info == FtsInfo::IsDontRead || ent.info == FtsInfo::IsNoStat {
                 Some( Err( Error::from_raw_os_error( ent.error ) ) )
             } else {
                 Some( Ok( DirEntry{ ent: ent } ) )
@@ -260,6 +260,7 @@ impl IntoIterator for WalkDir {
 mod test {
     use super::*;
     use std::fs::{Permissions, set_permissions};
+    use std::io::ErrorKind;
     use std::os::unix::fs::PermissionsExt;
     use std::path::Path;
 
@@ -302,6 +303,17 @@ mod test {
         let iter = WalkDir::new( WalkDirConf::new( path ).no_metadata() ).into_iter().filter_map( |x| x.ok() );
         for p in iter {
             assert!( p.metadata().is_none() );
+        }
+    }
+
+    #[test]
+    fn dir_not_found() {
+        let path = Path::new( "aaa" );
+        for p in WalkDir::new( WalkDirConf::new( path ) ) {
+            match p {
+                Ok ( _ ) => assert!( false ),
+                Err( x ) => assert_eq!( x.kind(), ErrorKind::NotFound ),
+            }
         }
     }
 }
