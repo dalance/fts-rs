@@ -15,7 +15,7 @@ pub struct Stat {
     pub st_dev           : dev_t       ,
     pub st_mode          : mode_t      ,
     pub st_nlink         : nlink_t     ,
-    pub st_ino           : u32         ,
+    pub st_ino           : ino_t       ,
     pub st_uid           : uid_t       ,
     pub st_gid           : gid_t       ,
     pub st_rdev          : dev_t       ,

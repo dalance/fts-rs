@@ -338,6 +338,7 @@ mod test {
     use std::fs::{Permissions, set_permissions};
     use std::io::ErrorKind;
     use std::os::unix::fs::PermissionsExt;
+    use std::os::unix::fs::MetadataExt;
     use std::path::Path;
 
     #[test]
@@ -365,7 +366,9 @@ mod test {
         let mut len = 0;
         for p in iter.filter( |x| x.file_type().is_file() ) {
             cnt += 1;
-            len += p.metadata().unwrap().len();
+            let m = p.metadata().unwrap();
+            println!( "name:{:?} len:{} dev:{} ino:{} mode:{} nlink:{} size:{}", p.file_name(), m.len(), m.dev(), m.ino(), m.mode(), m.nlink(), m.size() );
+            len += m.len();
         }
         assert_eq!( cnt, 10 );
         assert_eq!( len, 150 );
