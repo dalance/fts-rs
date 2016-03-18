@@ -367,7 +367,7 @@ mod test {
         for p in iter.filter( |x| x.file_type().is_file() ) {
             cnt += 1;
             let m = p.metadata().unwrap();
-            println!( "name:{:?} len:{} dev:{} ino:{} mode:{} nlink:{} size:{}", p.file_name(), m.len(), m.dev(), m.ino(), m.mode(), m.nlink(), m.size() );
+            println!( "name:{:?} len:{} dev:{} ino:{} mode:{:o} nlink:{} size:{}", p.file_name(), m.len(), m.dev(), m.ino(), m.mode(), m.nlink(), m.size() );
             len += m.len();
         }
         assert_eq!( cnt, 10 );
