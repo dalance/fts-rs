@@ -146,7 +146,7 @@ extern {
     /// ```
     pub fn fts_open( path_argv: *const *const c_char,
                      options  : c_int,
-                     compar   : Option<extern "C" fn( *const FTSENT, *const FTSENT ) -> c_int> ) -> *mut FTS;
+                     compar   : Option<extern "C" fn( *const *const FTSENT, *const *const FTSENT ) -> c_int> ) -> *mut FTS;
 
     /// fts_read() in fts.h
     ///

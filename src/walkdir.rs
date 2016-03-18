@@ -3,7 +3,7 @@ use std::fmt;
 use std::fs::Metadata;
 use std::io::Error;
 use std::path::Path;
-use fts::{Fts, FtsEntry, FtsInfo, fts_option};
+use fts::{Fts, FtsComp, FtsCompFunc, FtsEntry, FtsInfo, fts_option};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // DirEntry
@@ -110,13 +110,31 @@ impl Iterator for Iter {
 // WalkDirConf
 // ---------------------------------------------------------------------------------------------------------------------
 
+#[derive(PartialEq)]
+enum SortBy {
+    None ,
+    Name ,
+    Len  ,
+    ATime,
+    MTime,
+    CTime,
+}
+
+#[derive(PartialEq)]
+enum SortDir {
+    Ascending ,
+    Descending,
+}
+
 pub struct WalkDirConf {
-    path          : String,
-    follow_symlink: bool  ,
-    cross_device  : bool  ,
-    include_dot   : bool  ,
-    no_metadata   : bool  ,
-    no_chdir      : bool  ,
+    path          : String ,
+    follow_symlink: bool   ,
+    cross_device  : bool   ,
+    include_dot   : bool   ,
+    no_metadata   : bool   ,
+    no_chdir      : bool   ,
+    sort_by       : SortBy ,
+    sort_dir      : SortDir,
 }
 
 impl WalkDirConf {
@@ -131,6 +149,8 @@ impl WalkDirConf {
             include_dot   : false,
             no_metadata   : false,
             no_chdir      : false,
+            sort_by       : SortBy::None      ,
+            sort_dir      : SortDir::Ascending,
         }
     }
 
@@ -161,6 +181,48 @@ impl WalkDirConf {
     /// Disable changing current directory through directory walking.
     pub fn no_chdir( mut self ) -> Self {
         self.no_chdir = true;
+        self
+    }
+
+    /// Sort by file name.
+    pub fn sort_by_name( mut self ) -> Self {
+        self.sort_by = SortBy::Name;
+        self
+    }
+
+    /// Sort by file length.
+    pub fn sort_by_len( mut self ) -> Self {
+        self.sort_by = SortBy::Len;
+        self
+    }
+
+    /// Sort by access time.
+    pub fn sort_by_atime( mut self ) -> Self {
+        self.sort_by = SortBy::ATime;
+        self
+    }
+
+    /// Sort by create time.
+    pub fn sort_by_ctime( mut self ) -> Self {
+        self.sort_by = SortBy::CTime;
+        self
+    }
+
+    /// Sort by modify time.
+    pub fn sort_by_mtime( mut self ) -> Self {
+        self.sort_by = SortBy::MTime;
+        self
+    }
+
+    /// Sort by ascending order.
+    pub fn sort_ascending( mut self ) -> Self {
+        self.sort_dir = SortDir::Ascending;
+        self
+    }
+
+    /// Sort by descending order.
+    pub fn sort_descending( mut self ) -> Self {
+        self.sort_dir = SortDir::Descending;
         self
     }
 }
@@ -220,10 +282,24 @@ impl WalkDir {
         option = if conf.no_metadata  { option | fts_option::NOSTAT  } else { option };
         option = if conf.no_chdir     { option | fts_option::NOCHDIR } else { option };
 
+        let sorter = match conf.sort_by {
+            SortBy::Name  if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_name_ascending   as FtsCompFunc ),
+            SortBy::Name  if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_name_descending  as FtsCompFunc ),
+            SortBy::Len   if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_len_ascending    as FtsCompFunc ),
+            SortBy::Len   if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_len_descending   as FtsCompFunc ),
+            SortBy::ATime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_atime_ascending  as FtsCompFunc ),
+            SortBy::ATime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_atime_descending as FtsCompFunc ),
+            SortBy::CTime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_ctime_ascending  as FtsCompFunc ),
+            SortBy::CTime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_ctime_descending as FtsCompFunc ),
+            SortBy::MTime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_mtime_ascending  as FtsCompFunc ),
+            SortBy::MTime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_mtime_descending as FtsCompFunc ),
+            _                                                     => None,
+        };
+
         let path = conf.path.clone();
         WalkDir{
             conf: conf,
-            fts : Fts::new( vec![path], option ).unwrap(),
+            fts : Fts::new( vec![path], option, sorter ).unwrap(),
         }
     }
 
@@ -274,7 +350,7 @@ mod test {
         for _ in iter {
             cnt += 1;
         }
-        assert_eq!( cnt, 12 );
+        assert_eq!( cnt, 22 );
 
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
@@ -291,8 +367,8 @@ mod test {
             cnt += 1;
             len += p.metadata().unwrap().len();
         }
-        assert_eq!( cnt, 2 );
-        assert_eq!( len, 0 );
+        assert_eq!( cnt, 10 );
+        assert_eq!( len, 150 );
 
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
@@ -316,5 +392,35 @@ mod test {
             }
         }
     }
+
+    #[test]
+    fn sort() {
+        let path = Path::new( "test/sort" );
+        {
+            let conf = WalkDirConf::new( path ).sort_by_name().sort_ascending();
+            let mut iter = WalkDir::new( conf ).into_iter().filter_map( |x| x.ok() ).filter( |x| x.file_type().is_file() );
+            assert_eq!( iter.next().unwrap().file_name(), "0" );
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_name().sort_descending();
+            let mut iter = WalkDir::new( conf ).into_iter().filter_map( |x| x.ok() ).filter( |x| x.file_type().is_file() );
+            assert_eq!( iter.next().unwrap().file_name(), "d" );
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_len().sort_ascending();
+            let mut iter = WalkDir::new( conf ).into_iter().filter_map( |x| x.ok() ).filter( |x| x.file_type().is_file() );
+            assert_eq!( iter.next().unwrap().file_name(), "a" );
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_len().sort_descending();
+            let mut iter = WalkDir::new( conf ).into_iter().filter_map( |x| x.ok() ).filter( |x| x.file_type().is_file() );
+            assert_eq!( iter.next().unwrap().file_name(), "2" );
+        }
+
+    }
+
 }
 

@@ -1,12 +1,18 @@
 use ffi;
+use std::cmp::Ordering;
 use std::ffi::{CString, OsStr};
 use std::fmt;
 use std::fs::Metadata;
 use std::os::unix::ffi::OsStrExt;
+use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use std::{mem, ptr, slice};
-use libc::stat;
+use libc::{c_long, c_int, stat};
 use num::FromPrimitive;
+
+// ---------------------------------------------------------------------------------------------------------------------
+// enum
+// ---------------------------------------------------------------------------------------------------------------------
 
 pub mod fts_option {
     bitflags! {
@@ -66,10 +72,9 @@ pub enum FtsError {
     SetFail     ,
 }
 
-pub struct Fts {
-    fts: *mut ffi::FTS,
-    opt: fts_option::Flags,
-}
+// ---------------------------------------------------------------------------------------------------------------------
+// FtsEntry
+// ---------------------------------------------------------------------------------------------------------------------
 
 pub struct FtsEntry {
     pub path : PathBuf ,
@@ -106,9 +111,17 @@ impl fmt::Debug for FtsEntry {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Fts
+// ---------------------------------------------------------------------------------------------------------------------
+
+pub struct Fts {
+    fts: *mut ffi::FTS,
+    opt: fts_option::Flags,
+}
 
 impl Fts {
-    pub fn new( paths: Vec<String>, option: fts_option::Flags ) -> Result<Self, FtsError> {
+    pub fn new( paths: Vec<String>, option: fts_option::Flags, cmp: Option<FtsCompFunc> ) -> Result<Self, FtsError> {
         let mut c_paths = Vec::new();
         for p in paths {
             match CString::new( p ) {
@@ -117,7 +130,7 @@ impl Fts {
             }
         }
         c_paths.push( ptr::null() );
-        let fts = unsafe { ffi::fts_open( c_paths.as_ptr(), option.bits() as i32, None ) };
+        let fts = unsafe { ffi::fts_open( c_paths.as_ptr(), option.bits() as i32, cmp ) };
         Ok( Fts { fts: fts, opt: option } )
     }
 
@@ -188,6 +201,153 @@ impl Drop for Fts {
     }
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// FtsComp
+// ---------------------------------------------------------------------------------------------------------------------
+
+pub type FtsCompIn   = *const *const ffi::FTSENT;
+pub type FtsCompFunc = extern "C" fn( FtsCompIn, FtsCompIn ) -> c_int;
+
+pub struct FtsComp {}
+
+impl FtsComp {
+    pub extern "C" fn by_name_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_ascending_ref( ent0, ent1, FtsComp::to_name )
+    }
+
+    pub extern "C" fn by_name_descending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_descending_ref( ent0, ent1, FtsComp::to_name )
+    }
+
+    pub extern "C" fn by_atime_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_ascending_val( ent0, ent1, FtsComp::to_atime )
+    }
+
+    pub extern "C" fn by_atime_descending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_descending_val( ent0, ent1, FtsComp::to_atime )
+    }
+
+    pub extern "C" fn by_mtime_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_ascending_val( ent0, ent1, FtsComp::to_mtime )
+    }
+
+    pub extern "C" fn by_mtime_descending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_descending_val( ent0, ent1, FtsComp::to_mtime )
+    }
+
+    pub extern "C" fn by_ctime_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_ascending_val( ent0, ent1, FtsComp::to_ctime )
+    }
+
+    pub extern "C" fn by_ctime_descending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_descending_val( ent0, ent1, FtsComp::to_ctime )
+    }
+
+    pub extern "C" fn by_len_ascending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_ascending_val( ent0, ent1, FtsComp::to_len )
+    }
+
+    pub extern "C" fn by_len_descending( ent0: FtsCompIn, ent1: FtsCompIn ) -> c_int {
+        FtsComp::by_descending_val( ent0, ent1, FtsComp::to_len )
+    }
+
+    fn by_ascending_val<T: PartialOrd>( ent0: FtsCompIn, ent1: FtsCompIn, to_value: fn( FtsCompIn ) -> T ) -> c_int {
+        let val0 = to_value( ent0 );
+        let val1 = to_value( ent1 );
+        match val0.partial_cmp( &val1 ) {
+            Some( Ordering::Less    ) => -1,
+            Some( Ordering::Equal   ) =>  0,
+            Some( Ordering::Greater ) =>  1,
+            None                      =>  0,
+        }
+    }
+
+    fn by_ascending_ref<'a, T: PartialOrd+?Sized>( ent0: FtsCompIn, ent1: FtsCompIn, to_value: fn( FtsCompIn ) -> &'a T ) -> c_int {
+        let val0 = to_value( ent0 );
+        let val1 = to_value( ent1 );
+        match val0.partial_cmp( &val1 ) {
+            Some( Ordering::Less    ) => -1,
+            Some( Ordering::Equal   ) =>  0,
+            Some( Ordering::Greater ) =>  1,
+            None                      =>  0,
+        }
+    }
+
+    fn by_descending_val<T: PartialOrd>( ent0: FtsCompIn, ent1: FtsCompIn, to_value: fn( FtsCompIn ) -> T ) -> c_int {
+        let val0 = to_value( ent0 );
+        let val1 = to_value( ent1 );
+        match val0.partial_cmp( &val1 ) {
+            Some( Ordering::Less    ) =>  1,
+            Some( Ordering::Equal   ) =>  0,
+            Some( Ordering::Greater ) => -1,
+            None                      =>  0,
+        }
+    }
+
+    fn by_descending_ref<'a, T: PartialOrd+?Sized>( ent0: FtsCompIn, ent1: FtsCompIn, to_value: fn( FtsCompIn ) -> &'a T ) -> c_int {
+        let val0 = to_value( ent0 );
+        let val1 = to_value( ent1 );
+        match val0.partial_cmp( &val1 ) {
+            Some( Ordering::Less    ) =>  1,
+            Some( Ordering::Equal   ) =>  0,
+            Some( Ordering::Greater ) => -1,
+            None                      =>  0,
+        }
+    }
+
+    fn to_name<'a>( ent:*const *const ffi::FTSENT ) -> &'a OsStr {
+        let len = unsafe { (**ent).fts_namelen as usize };
+        let ptr = unsafe { mem::transmute::<&[i8;1], *mut u8>( &(**ent).fts_name ) };
+        FtsComp::to_osstr( ptr, len )
+    }
+
+    fn to_osstr<'a>( buf: *mut u8, len: usize ) -> &'a OsStr {
+        let slice = unsafe { slice::from_raw_parts( buf, len ) };
+        OsStr::from_bytes( slice )
+    }
+
+    fn to_atime( ent:*const *const ffi::FTSENT ) -> c_long {
+        let statp = unsafe { (**ent).fts_statp };
+        if statp.is_null() {
+            0
+        } else {
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).atime_nsec() }
+        }
+    }
+
+    fn to_mtime( ent:*const *const ffi::FTSENT ) -> c_long {
+        let statp = unsafe { (**ent).fts_statp };
+        if statp.is_null() {
+            0
+        } else {
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).mtime_nsec() }
+        }
+    }
+
+    fn to_ctime( ent:*const *const ffi::FTSENT ) -> c_long {
+        let statp = unsafe { (**ent).fts_statp };
+        if statp.is_null() {
+            0
+        } else {
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).ctime_nsec() }
+        }
+    }
+
+    fn to_len( ent:*const *const ffi::FTSENT ) -> u64 {
+        let statp = unsafe { (**ent).fts_statp };
+        if statp.is_null() {
+            0
+        } else {
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).len() }
+        }
+    }
+
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Test
+// ---------------------------------------------------------------------------------------------------------------------
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -255,7 +415,7 @@ mod test {
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
 
         let paths = vec![String::from( "test" )];
-        let mut fts = Fts::new( paths, fts_option::LOGICAL ).unwrap();
+        let mut fts = Fts::new( paths, fts_option::LOGICAL, None ).unwrap();
 
         let mut ftsent = fts.read();
         let mut i = 0;
@@ -265,7 +425,7 @@ mod test {
             ftsent = fts.read();
             i += 1;
         }
-        assert_eq!( i, 13 );
+        assert_eq!( i, 23 );
 
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
@@ -275,7 +435,7 @@ mod test {
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0 ) );
 
         let paths = vec![String::from( "test" )];
-        let mut fts = Fts::new( paths, fts_option::PHYSICAL ).unwrap();
+        let mut fts = Fts::new( paths, fts_option::PHYSICAL, None ).unwrap();
 
         let mut ftsent = fts.read();
         let mut i = 0;
@@ -285,8 +445,25 @@ mod test {
             ftsent = fts.read();
             i += 1;
         }
-        assert_eq!( i, 13 );
+        assert_eq!( i, 23 );
 
         let _ = set_permissions( "test/dir2", Permissions::from_mode( 0o755 ) );
     }
+
+    #[test]
+    fn by_name_ascending() {
+        let paths = vec![String::from( "test/sort" )];
+        let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_ascending ) ).unwrap();
+        //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_descending ) ).unwrap();
+        //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_atime_ascending ) ).unwrap();
+
+        let mut ftsent = fts.read();
+        while ftsent.is_some() {
+            let ent = ftsent.unwrap();
+            //println!( "{:?}", ent );
+            check_entry( ent, true );
+            ftsent = fts.read();
+        }
+    }
+
 }
