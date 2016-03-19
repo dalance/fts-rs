@@ -7,7 +7,7 @@ use std::os::unix::ffi::OsStrExt;
 use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use std::{mem, ptr, slice};
-use libc::{c_long, c_int};
+use libc::{c_long, c_int, stat};
 use num::FromPrimitive;
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@ impl Fts {
             if is_no_stat {
                 None
             } else {
-                Some( (*mem::transmute::<*const ffi::Stat, *const Metadata>( (*ent).fts_statp )).clone() )
+                Some( (*mem::transmute::<*const stat, *const Metadata>( (*ent).fts_statp )).clone() )
             }
         };
 
@@ -311,7 +311,7 @@ impl FtsComp {
         if statp.is_null() {
             0
         } else {
-            unsafe{ (*mem::transmute::<*const ffi::Stat, *const Metadata>( (**ent).fts_statp )).atime_nsec() }
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).atime_nsec() }
         }
     }
 
@@ -320,7 +320,7 @@ impl FtsComp {
         if statp.is_null() {
             0
         } else {
-            unsafe{ (*mem::transmute::<*const ffi::Stat, *const Metadata>( (**ent).fts_statp )).mtime_nsec() }
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).mtime_nsec() }
         }
     }
 
@@ -329,7 +329,7 @@ impl FtsComp {
         if statp.is_null() {
             0
         } else {
-            unsafe{ (*mem::transmute::<*const ffi::Stat, *const Metadata>( (**ent).fts_statp )).ctime_nsec() }
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).ctime_nsec() }
         }
     }
 
@@ -338,7 +338,7 @@ impl FtsComp {
         if statp.is_null() {
             0
         } else {
-            unsafe{ (*mem::transmute::<*const ffi::Stat, *const Metadata>( (**ent).fts_statp )).len() }
+            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).len() }
         }
     }
 

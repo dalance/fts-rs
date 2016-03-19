@@ -1,41 +1,5 @@
 use libc::*;
 
-#[cfg(target_os="linux")]
-pub type Inode = ino_t;
-
-#[cfg(target_os="macos")]
-pub type Inode = u32;
-
-#[cfg(target_os="linux")]
-pub type Stat = stat;
-
-#[cfg(target_os="macos")]
-#[repr(C)]
-pub struct Stat {
-    pub st_dev           : dev_t       ,
-    pub st_mode          : mode_t      ,
-    pub st_nlink         : nlink_t     ,
-    pub st_ino           : ino_t       ,
-    pub st_uid           : uid_t       ,
-    pub st_gid           : gid_t       ,
-    pub st_rdev          : dev_t       ,
-    pub st_atime         : time_t      ,
-    pub st_atime_nsec    : c_long      ,
-    pub st_mtime         : time_t      ,
-    pub st_mtime_nsec    : c_long      ,
-    pub st_ctime         : time_t      ,
-    pub st_ctime_nsec    : c_long      ,
-    pub st_birthtime     : time_t      ,
-    pub st_birthtime_nsec: c_long      ,
-    pub st_size          : off_t       ,
-    pub st_blocks        : blkcnt_t    ,
-    pub st_blksize       : blksize_t   ,
-    pub st_flags         : uint32_t    ,
-    pub st_gen           : uint32_t    ,
-    pub st_lspare        : int32_t     ,
-    pub st_qspare        : [int64_t; 2],
-}
-
 /// struct FTS in fts.h ( opaque struct )
 pub enum FTS {}
 
@@ -66,7 +30,7 @@ pub struct FTSENT {
     /// strlen(fts_name)
     pub fts_namelen: c_ushort     ,
     /// inode
-    pub fts_ino    : Inode        ,
+    pub fts_ino    : ino_t        ,
     /// device
     pub fts_dev    : dev_t        ,
     /// link count
@@ -80,7 +44,7 @@ pub struct FTSENT {
     /// fts_set() instructions
     pub fts_instr  : c_ushort     ,
     /// stat(2) information
-    pub fts_statp  : *const Stat  ,
+    pub fts_statp  : *const stat  ,
     /// file name
     pub fts_name   : [c_char;1]   ,
 }
@@ -170,6 +134,7 @@ extern {
     /// let paths = vec![path, std::ptr::null()];
     /// let _fts  = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// ```
+    #[cfg_attr(target_os = "macos", link_name = "fts_open$INODE64")]
     pub fn fts_open( path_argv: *const *const c_char,
                      options  : c_int,
                      compar   : Option<extern "C" fn( *const *const FTSENT, *const *const FTSENT ) -> c_int> ) -> *mut FTS;
@@ -189,6 +154,7 @@ extern {
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// ```
+    #[cfg_attr(target_os = "macos", link_name = "fts_read$INODE64")]
     pub fn fts_read( ftsp: *mut FTS ) -> *const FTSENT;
 
     /// fts_children() in fts.h
@@ -208,6 +174,7 @@ extern {
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_children( fts, 0 ) };
     /// ```
+    #[cfg_attr(target_os = "macos", link_name = "fts_children$INODE64")]
     pub fn fts_children( ftsp: *mut FTS, options: c_int ) -> *const FTSENT;
 
     /// fts_set() in fts.h
@@ -230,6 +197,7 @@ extern {
     /// let ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// let _      = unsafe { fts::ffi::fts_set( fts, ftsent, fts::ffi::FTS_AGAIN ) };
     /// ```
+    #[cfg_attr(target_os = "macos", link_name = "fts_set$INODE64")]
     pub fn fts_set( ftsp: *mut FTS, f: *const FTSENT, options: c_int ) -> c_int;
 
     /// fts_close() in fts.h
@@ -247,6 +215,7 @@ extern {
     /// let fts    = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _      = unsafe { fts::ffi::fts_close( fts ) };
     /// ```
+    #[cfg_attr(target_os = "macos", link_name = "fts_close$INODE64")]
     pub fn fts_close( ftsp: *mut FTS ) -> c_int;
 }
 
