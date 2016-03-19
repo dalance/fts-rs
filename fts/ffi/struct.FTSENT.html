@@ -46,28 +46,28 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-12' class='srclink' href='../../src/fts/src/ffi.rs.html#9-50' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-12' class='srclink' href='../../src/fts/ffi.rs.html#9-50' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct FTSENT {
-    pub fts_cycle: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
-    pub fts_parent: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
-    pub fts_link: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a>,
-    pub fts_number: c_long,
-    pub fts_pointer: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_void,
-    pub fts_accpath: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_char,
-    pub fts_path: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>c_char,
-    pub fts_errno: c_int,
-    pub fts_symfd: c_int,
-    pub fts_pathlen: c_ushort,
-    pub fts_namelen: c_ushort,
-    pub fts_ino: c_ulong,
-    pub fts_dev: c_ulong,
-    pub fts_nlink: c_ulong,
-    pub fts_level: c_short,
-    pub fts_info: c_ushort,
-    pub fts_flags: c_ushort,
-    pub fts_instr: c_ushort,
-    pub fts_statp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a>stat,
-    pub fts_name: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[</a>c_char<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>; 1]</a>,
+    pub fts_cycle: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></a>,
+    pub fts_parent: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></a>,
+    pub fts_link: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></a>,
+    pub fts_number: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/type.c_long.html' title='libc::unix::notbsd::linux::other::b64::c_long'>c_long</a>,
+    pub fts_pointer: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='enum' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/enum.c_void.html' title='libc::c_void'>c_void</a></a>,
+    pub fts_accpath: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/x86_64/type.c_char.html' title='libc::unix::notbsd::linux::other::b64::x86_64::c_char'>c_char</a></a>,
+    pub fts_path: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/x86_64/type.c_char.html' title='libc::unix::notbsd::linux::other::b64::x86_64::c_char'>c_char</a></a>,
+    pub fts_errno: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub fts_symfd: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>,
+    pub fts_pathlen: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_ushort.html' title='libc::c_ushort'>c_ushort</a>,
+    pub fts_namelen: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_ushort.html' title='libc::c_ushort'>c_ushort</a>,
+    pub fts_ino: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/type.ino_t.html' title='libc::unix::notbsd::linux::other::b64::ino_t'>ino_t</a>,
+    pub fts_dev: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/type.dev_t.html' title='libc::unix::notbsd::linux::dev_t'>dev_t</a>,
+    pub fts_nlink: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/x86_64/type.nlink_t.html' title='libc::unix::notbsd::linux::other::b64::x86_64::nlink_t'>nlink_t</a>,
+    pub fts_level: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_short.html' title='libc::c_short'>c_short</a>,
+    pub fts_info: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_ushort.html' title='libc::c_ushort'>c_ushort</a>,
+    pub fts_flags: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_ushort.html' title='libc::c_ushort'>c_ushort</a>,
+    pub fts_instr: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_ushort.html' title='libc::c_ushort'>c_ushort</a>,
+    pub fts_statp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/x86_64/struct.stat.html' title='libc::unix::notbsd::linux::other::b64::x86_64::stat'>stat</a></a>,
+    pub fts_name: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.array.html'>[<a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/unix/notbsd/linux/other/b64/x86_64/type.c_char.html' title='libc::unix::notbsd::linux::other::b64::x86_64::c_char'>c_char</a>; 1]</a>,
 }</pre><div class='docblock'><p>struct FTSENT in fts.h</p>
 </div><h2 class='fields'>Fields</h2>
 <table><tr class='stab '>
@@ -154,7 +154,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                    <code>vec -> usize</code>)
                 </p>
             </div>
         </div>

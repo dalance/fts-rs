@@ -46,14 +46,13 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-536' class='srclink' href='../../src/fts/src/walkdir.rs.html#209-212' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-684' class='srclink' href='../../src/fts/walkdir.rs.html#271-274' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WalkDir {
     // some fields omitted
 }</pre><div class='docblock'><p>A builder to create an iterator for directory walking.</p>
 
 <h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
 <p>The simplest usage is the following.</p>
-
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
 <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ) ) {
@@ -62,7 +61,6 @@
 
 <p><code>WalkDirConf</code> is a configuration builder of directory walking.
 For example, if you want to follow symblic links, you can use <code>follow_symlink()</code> like the following.</p>
-
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
 <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>follow_symlink</span>() ) {
@@ -70,7 +68,6 @@ For example, if you want to follow symblic links, you can use <code>follow_symli
 }</pre>
 
 <p>If you want to use metadata of files, you can use <code>no_metadata()</code> for performance optimization like the following.</p>
-
 <pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
 <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>no_metadata</span>() ) {
@@ -90,8 +87,8 @@ For example, if you want to follow symblic links, you can use <code>follow_symli
 <div class='docblock'><p>Test whether <code>WalkDir</code> provides metadata.</p>
 </div><h4 id='method.is_no_chdir' class='method'><code>fn <a href='#method.is_no_chdir' class='fnname'>is_no_chdir</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></h4>
 <div class='docblock'><p>Test whether <code>WalkDir</code> change current directory through directory walking.</p>
-</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a> for <a class='struct' href='../../fts/walkdir/struct.WalkDir.html' title='fts::walkdir::WalkDir'>WalkDir</a></code></h3><div class='impl-items'><h4 id='associatedtype.Item' class='type'><code>type Item = <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../fts/walkdir/struct.DirEntry.html' title='fts::walkdir::DirEntry'>DirEntry</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code></h4>
-<h4 id='associatedtype.IntoIter' class='type'><code>type IntoIter = <a class='struct' href='../../fts/walkdir/struct.Iter.html' title='fts::walkdir::Iter'>Iter</a></code></h4>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a> for <a class='struct' href='../../fts/walkdir/struct.WalkDir.html' title='fts::walkdir::WalkDir'>WalkDir</a></code></h3><div class='impl-items'><h4 id='assoc_type.Item' class='type'><code>type Item = <a class='enum' href='https://doc.rust-lang.org/nightly/core/result/enum.Result.html' title='core::result::Result'>Result</a>&lt;<a class='struct' href='../../fts/walkdir/struct.DirEntry.html' title='fts::walkdir::DirEntry'>DirEntry</a>, <a class='struct' href='https://doc.rust-lang.org/nightly/std/io/error/struct.Error.html' title='std::io::error::Error'>Error</a>&gt;</code></h4>
+<h4 id='assoc_type.IntoIter' class='type'><code>type IntoIter = <a class='struct' href='../../fts/walkdir/struct.Iter.html' title='fts::walkdir::Iter'>Iter</a></code></h4>
 <h4 id='method.into_iter' class='method'><code>fn <a href='https://doc.rust-lang.org/nightly/core/iter/trait.IntoIterator.html#method.into_iter' class='fnname'>into_iter</a>(self) -&gt; <a class='struct' href='../../fts/walkdir/struct.Iter.html' title='fts::walkdir::Iter'>Iter</a></code></h4>
 </div></section>
     <section id='search' class="content hidden"></section>
@@ -136,7 +133,7 @@ For example, if you want to follow symblic links, you can use <code>follow_symli
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                    <code>vec -> usize</code>)
                 </p>
             </div>
         </div>

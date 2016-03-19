@@ -46,8 +46,8 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-98' class='srclink' href='../../src/fts/src/ffi.rs.html#156' title='goto source code'>[src]</a></span></h1>
-<pre class='rust fn'>pub unsafe extern fn fts_read(ftsp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut </a><a class='enum' href='../../fts/ffi/enum.FTS.html' title='fts::ffi::FTS'>FTS</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const </a><a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></pre><div class='docblock'><p>fts_read() in fts.h</p>
+        </span><a id='src-98' class='srclink' href='../../src/fts/ffi.rs.html#158' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub unsafe extern fn fts_read(ftsp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='enum' href='../../fts/ffi/enum.FTS.html' title='fts::ffi::FTS'>FTS</a></a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></a></pre><div class='docblock'><p>fts_read() in fts.h</p>
 
 <h1 id='c-function' class='section-header'><a href='#c-function'>C function</a></h1>
 <p>FTSENT *fts_read(FTS *ftsp);</p>
@@ -55,8 +55,7 @@
 <h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
 <p><code>ftsp</code> must be a valid pointer of struct FTS.</p>
 
-<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
-<pre class='rust rust-example-rendered'>
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>path</span>    <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>CString</span>::<span class='ident'>new</span>( <span class='string'>&quot;.&quot;</span> ).<span class='ident'>unwrap</span>().<span class='ident'>as_ptr</span>();
 <span class='kw'>let</span> <span class='ident'>paths</span>   <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>path</span>, <span class='ident'>std</span>::<span class='ident'>ptr</span>::<span class='ident'>null</span>()];
 <span class='kw'>let</span> <span class='ident'>fts</span>     <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>fts</span>::<span class='ident'>ffi</span>::<span class='ident'>fts_open</span>( <span class='ident'>paths</span>.<span class='ident'>as_ptr</span>(), <span class='ident'>fts</span>::<span class='ident'>ffi</span>::<span class='ident'>FTS_LOGICAL</span>, <span class='prelude-val'>None</span> ) };
@@ -104,7 +103,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                    <code>vec -> usize</code>)
                 </p>
             </div>
         </div>

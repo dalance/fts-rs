@@ -46,7 +46,7 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-514' class='srclink' href='../../src/fts/src/walkdir.rs.html#113-120' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-646' class='srclink' href='../../src/fts/walkdir.rs.html#129-138' title='goto source code'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct WalkDirConf {
     // some fields omitted
 }</pre><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='struct' href='../../fts/walkdir/struct.WalkDirConf.html' title='fts::walkdir::WalkDirConf'>WalkDirConf</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;P: <a class='trait' href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html' title='core::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='https://doc.rust-lang.org/nightly/std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt;&gt;(root: P) -&gt; Self</code></h4>
@@ -61,6 +61,20 @@
 <div class='docblock'><p>Disable providing metadata.</p>
 </div><h4 id='method.no_chdir' class='method'><code>fn <a href='#method.no_chdir' class='fnname'>no_chdir</a>(self) -&gt; Self</code></h4>
 <div class='docblock'><p>Disable changing current directory through directory walking.</p>
+</div><h4 id='method.sort_by_name' class='method'><code>fn <a href='#method.sort_by_name' class='fnname'>sort_by_name</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by file name.</p>
+</div><h4 id='method.sort_by_len' class='method'><code>fn <a href='#method.sort_by_len' class='fnname'>sort_by_len</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by file length.</p>
+</div><h4 id='method.sort_by_atime' class='method'><code>fn <a href='#method.sort_by_atime' class='fnname'>sort_by_atime</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by access time.</p>
+</div><h4 id='method.sort_by_ctime' class='method'><code>fn <a href='#method.sort_by_ctime' class='fnname'>sort_by_ctime</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by create time.</p>
+</div><h4 id='method.sort_by_mtime' class='method'><code>fn <a href='#method.sort_by_mtime' class='fnname'>sort_by_mtime</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by modify time.</p>
+</div><h4 id='method.sort_ascending' class='method'><code>fn <a href='#method.sort_ascending' class='fnname'>sort_ascending</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by ascending order.</p>
+</div><h4 id='method.sort_descending' class='method'><code>fn <a href='#method.sort_descending' class='fnname'>sort_descending</a>(self) -&gt; Self</code></h4>
+<div class='docblock'><p>Sort by descending order.</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>
 
@@ -104,7 +118,7 @@
 
                 <p>
                     Search functions by type signature (e.g.
-                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                    <code>vec -> usize</code>)
                 </p>
             </div>
         </div>
