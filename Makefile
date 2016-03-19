@@ -14,7 +14,6 @@ doc:
 	cargo doc --no-deps
 
 test:
-	ls -li test/sort
 	cargo test -- --nocapture
 
 clean:
