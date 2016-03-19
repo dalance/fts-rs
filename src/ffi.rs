@@ -46,7 +46,7 @@ pub struct FTSENT {
     /// stat(2) information
     pub fts_statp  : *const stat  ,
     /// file name
-    pub fts_name   : [c_char;1]   ,
+    pub fts_name   : [u8;1]   ,
 }
 
 /// fts_level: level of root parent

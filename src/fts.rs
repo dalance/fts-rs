@@ -149,7 +149,7 @@ impl Fts {
         }
     }
 
-    fn to_path( buf: *mut u8, len: usize ) -> PathBuf {
+    fn to_path( buf: *const u8, len: usize ) -> PathBuf {
         unsafe {
             let slice = slice::from_raw_parts( buf, len );
             let osstr = OsStr::from_bytes( slice );
@@ -163,11 +163,11 @@ impl Fts {
         }
 
         let len  = unsafe { (*ent).fts_namelen as usize };
-        let ptr  = unsafe { mem::transmute::<&[i8;1], *mut u8>( &(*ent).fts_name ) };
+        let ptr  = unsafe { ( &(*ent).fts_name ) as *const u8 };
         let name = Fts::to_path( ptr, len );
 
         let len  = unsafe { (*ent).fts_pathlen as usize };
-        let ptr  = unsafe { (*ent).fts_path as *mut u8 };
+        let ptr  = unsafe { (*ent).fts_path as *const u8 };
         let path = Fts::to_path( ptr, len );
 
         let info  = unsafe { (*ent).fts_info as isize };
@@ -296,12 +296,12 @@ impl FtsComp {
     }
 
     fn to_name<'a>( ent:*const *const ffi::FTSENT ) -> &'a OsStr {
-        let len = unsafe { (**ent).fts_namelen as usize };
-        let ptr = unsafe { mem::transmute::<&[i8;1], *mut u8>( &(**ent).fts_name ) };
+        let len  = unsafe { (**ent).fts_namelen as usize };
+        let ptr  = unsafe { ( &(**ent).fts_name ) as *const u8 };
         FtsComp::to_osstr( ptr, len )
     }
 
-    fn to_osstr<'a>( buf: *mut u8, len: usize ) -> &'a OsStr {
+    fn to_osstr<'a>( buf: *const u8, len: usize ) -> &'a OsStr {
         let slice = unsafe { slice::from_raw_parts( buf, len ) };
         OsStr::from_bytes( slice )
     }
