@@ -451,7 +451,7 @@ mod test {
     }
 
     #[test]
-    fn by_name_ascending() {
+    fn sort() {
         let paths = vec![String::from( "test/sort" )];
         let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_ascending ) ).unwrap();
         //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_descending ) ).unwrap();
@@ -460,10 +460,19 @@ mod test {
         let mut ftsent = fts.read();
         while ftsent.is_some() {
             let ent = ftsent.unwrap();
-            //println!( "{:?}", ent );
             check_entry( ent, true );
             ftsent = fts.read();
         }
     }
+
+    #[test]
+    fn path_with_null() {
+        let paths = vec![String::from( "test\0/sort" )];
+        let fts = Fts::new( paths, fts_option::LOGICAL, None );
+        match fts {
+            Err( FtsError::PathWithNull ) => assert!( true  ),
+            _                             => assert!( false ),
+        }
+   }
 
 }

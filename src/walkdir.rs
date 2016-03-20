@@ -422,5 +422,39 @@ mod test {
 
     }
 
+    #[test]
+    fn sort_time() {
+        let path = Path::new( "test/sort" );
+        {
+            let conf = WalkDirConf::new( path ).sort_by_atime().sort_ascending();
+            for _ in WalkDir::new( conf ) { }
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_atime().sort_descending();
+            for _ in WalkDir::new( conf ) { }
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_mtime().sort_ascending();
+            for _ in WalkDir::new( conf ) { }
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_mtime().sort_descending();
+            for _ in WalkDir::new( conf ) { }
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_ctime().sort_ascending();
+            for _ in WalkDir::new( conf ) { }
+        }
+
+        {
+            let conf = WalkDirConf::new( path ).sort_by_ctime().sort_descending();
+            for _ in WalkDir::new( conf ) { }
+        }
+    }
+
 }
 
