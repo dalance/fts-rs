@@ -46,14 +46,47 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-570' class='srclink' href='../../src/fts/walkdir.rs.html#1-425' title='goto source code'>[src]</a></span></h1>
-<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+        </span><a id='src-570' class='srclink' href='../../src/fts/walkdir.rs.html#1-477' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>A library for directory walking.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>The simplest usage is the following.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
+<span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ) ) {
+    <span class='macro'>println</span><span class='macro'>!</span>( <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>p</span>.<span class='ident'>unwrap</span>() );
+}</pre>
+
+<p><code>WalkDirConf</code> is a configuration builder of directory walking.
+For example, if you want to follow symblic links, you can use <code>follow_symlink()</code> like the following.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
+<span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>follow_symlink</span>() ) {
+    <span class='macro'>println</span><span class='macro'>!</span>( <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>p</span>.<span class='ident'>unwrap</span>() );
+}</pre>
+
+<p>If you don&#39;t want to use metadata of files, you can use <code>no_metadata()</code> for performance optimization like the following.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
+<span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>no_metadata</span>() ) {
+    <span class='macro'>println</span><span class='macro'>!</span>( <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>p</span>.<span class='ident'>unwrap</span>() );
+}</pre>
+
+<p>If you want to enumerate directories sorted by the creation time of file, you can use <code>sort_by_ctime()</code>.
+<code>sort_ascending()</code> means sorting in ascending order, and <code>sort_descending()</code> means descending order.</p>
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test&quot;</span> );
+<span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_ctime</span>().<span class='ident'>sort_ascending</span>() ) {
+    <span class='macro'>println</span><span class='macro'>!</span>( <span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>p</span>.<span class='ident'>unwrap</span>() );
+}</pre>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                     <tr class=' module-item'>
                         <td><a class='struct' href='struct.DirEntry.html'
                                title='fts::walkdir::DirEntry'>DirEntry</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A directory entry like <code>std::fs::DirEntry</code>.</p>
+
                         </td>
                     </tr>
                 
@@ -61,7 +94,8 @@
                         <td><a class='struct' href='struct.FileType.html'
                                title='fts::walkdir::FileType'>FileType</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A file type of the directory entry like <code>std::fs::FileType</code>.</p>
+
                         </td>
                     </tr>
                 
@@ -69,7 +103,8 @@
                         <td><a class='struct' href='struct.Iter.html'
                                title='fts::walkdir::Iter'>Iter</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A iterator for enumerating directory entries.</p>
+
                         </td>
                     </tr>
                 
@@ -86,7 +121,8 @@
                         <td><a class='struct' href='struct.WalkDirConf.html'
                                title='fts::walkdir::WalkDirConf'>WalkDirConf</a></td>
                         <td class='docblock short'>
-                             
+                             <p>A configuration builder of the settings for directory walking.</p>
+
                         </td>
                     </tr>
                 </table></section>

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["DirEntry",""],["FileType",""],["Iter",""],["WalkDir","A builder to create an iterator for directory walking."],["WalkDirConf",""]]});
+initSidebarItems({"struct":[["DirEntry","A directory entry like `std::fs::DirEntry`."],["FileType","A file type of the directory entry like `std::fs::FileType`."],["Iter","A iterator for enumerating directory entries."],["WalkDir","A builder to create an iterator for directory walking."],["WalkDirConf","A configuration builder of the settings for directory walking."]]});

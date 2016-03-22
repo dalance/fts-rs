@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["ffi",""],["fts",""],["walkdir",""]]});
+initSidebarItems({"mod":[["ffi","Bindings for libc fts."],["fts","A wrapper library of libc fts."],["walkdir","A library for directory walking."]]});

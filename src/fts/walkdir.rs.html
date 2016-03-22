@@ -467,7 +467,109 @@
 <span id="424">424</span>
 <span id="425">425</span>
 <span id="426">426</span>
+<span id="427">427</span>
+<span id="428">428</span>
+<span id="429">429</span>
+<span id="430">430</span>
+<span id="431">431</span>
+<span id="432">432</span>
+<span id="433">433</span>
+<span id="434">434</span>
+<span id="435">435</span>
+<span id="436">436</span>
+<span id="437">437</span>
+<span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
+<span id="443">443</span>
+<span id="444">444</span>
+<span id="445">445</span>
+<span id="446">446</span>
+<span id="447">447</span>
+<span id="448">448</span>
+<span id="449">449</span>
+<span id="450">450</span>
+<span id="451">451</span>
+<span id="452">452</span>
+<span id="453">453</span>
+<span id="454">454</span>
+<span id="455">455</span>
+<span id="456">456</span>
+<span id="457">457</span>
+<span id="458">458</span>
+<span id="459">459</span>
+<span id="460">460</span>
+<span id="461">461</span>
+<span id="462">462</span>
+<span id="463">463</span>
+<span id="464">464</span>
+<span id="465">465</span>
+<span id="466">466</span>
+<span id="467">467</span>
+<span id="468">468</span>
+<span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! A library for directory walking.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! # Examples</span>
+<span class='doccomment'>//! The simplest usage is the following.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use std::path::Path;</span>
+<span class='doccomment'>//! # use fts::walkdir::{WalkDir, WalkDirConf};</span>
+<span class='doccomment'>//! let path = Path::new( &quot;test&quot; );</span>
+<span class='doccomment'>//! for p in WalkDir::new( WalkDirConf::new( path ) ) {</span>
+<span class='doccomment'>//!     println!( &quot;{:?}&quot;, p.unwrap() );</span>
+<span class='doccomment'>//! }</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! `WalkDirConf` is a configuration builder of directory walking.</span>
+<span class='doccomment'>//! For example, if you want to follow symblic links, you can use `follow_symlink()` like the following.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use std::path::Path;</span>
+<span class='doccomment'>//! # use fts::walkdir::{WalkDir, WalkDirConf};</span>
+<span class='doccomment'>//! let path = Path::new( &quot;test&quot; );</span>
+<span class='doccomment'>//! for p in WalkDir::new( WalkDirConf::new( path ).follow_symlink() ) {</span>
+<span class='doccomment'>//!     println!( &quot;{:?}&quot;, p.unwrap() );</span>
+<span class='doccomment'>//! }</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! If you don&#39;t want to use metadata of files, you can use `no_metadata()` for performance optimization like the following.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use std::path::Path;</span>
+<span class='doccomment'>//! # use fts::walkdir::{WalkDir, WalkDirConf};</span>
+<span class='doccomment'>//! let path = Path::new( &quot;test&quot; );</span>
+<span class='doccomment'>//! for p in WalkDir::new( WalkDirConf::new( path ).no_metadata() ) {</span>
+<span class='doccomment'>//!     println!( &quot;{:?}&quot;, p.unwrap() );</span>
+<span class='doccomment'>//! }</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! If you want to enumerate directories sorted by the creation time of file, you can use `sort_by_ctime()`.</span>
+<span class='doccomment'>//! `sort_ascending()` means sorting in ascending order, and `sort_descending()` means descending order.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//! # use std::path::Path;</span>
+<span class='doccomment'>//! # use fts::walkdir::{WalkDir, WalkDirConf};</span>
+<span class='doccomment'>//! let path = Path::new( &quot;test&quot; );</span>
+<span class='doccomment'>//! for p in WalkDir::new( WalkDirConf::new( path ).sort_by_ctime().sort_ascending() ) {</span>
+<span class='doccomment'>//!     println!( &quot;{:?}&quot;, p.unwrap() );</span>
+<span class='doccomment'>//! }</span>
+<span class='doccomment'>//! ```</span>
+<span class='doccomment'>//!</span>
+
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::<span class='ident'>OsStr</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>Metadata</span>;
@@ -479,6 +581,7 @@
 <span class='comment'>// DirEntry</span>
 <span class='comment'>// ---------------------------------------------------------------------------------------------------------------------</span>
 
+<span class='doccomment'>/// A directory entry like `std::fs::DirEntry`.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>DirEntry</span> {
     <span class='ident'>ent</span>: <span class='ident'>FtsEntry</span>,
 }
@@ -526,6 +629,7 @@
 <span class='comment'>// FileType</span>
 <span class='comment'>// ---------------------------------------------------------------------------------------------------------------------</span>
 
+<span class='doccomment'>/// A file type of the directory entry like `std::fs::FileType`.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FileType</span> {
     <span class='ident'>info</span>: <span class='ident'>FtsInfo</span>,
 }
@@ -554,6 +658,7 @@
 <span class='comment'>// Iter</span>
 <span class='comment'>// ---------------------------------------------------------------------------------------------------------------------</span>
 
+<span class='doccomment'>/// A iterator for enumerating directory entries.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Iter</span> {
     <span class='ident'>fts</span>: <span class='ident'>Fts</span>,
 }
@@ -596,6 +701,7 @@
     <span class='ident'>Descending</span>,
 }
 
+<span class='doccomment'>/// A configuration builder of the settings for directory walking.</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WalkDirConf</span> {
     <span class='ident'>path</span>          : <span class='ident'>String</span> ,
     <span class='ident'>follow_symlink</span>: <span class='ident'>bool</span>   ,
@@ -702,42 +808,6 @@
 <span class='comment'>// ---------------------------------------------------------------------------------------------------------------------</span>
 
 <span class='doccomment'>/// A builder to create an iterator for directory walking.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// # Examples</span>
-<span class='doccomment'>/// The simplest usage is the following.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>/// # use std::path::Path;</span>
-<span class='doccomment'>/// # use fts::walkdir::{WalkDir, WalkDirConf};</span>
-<span class='doccomment'>/// let path = Path::new( &quot;test&quot; );</span>
-<span class='doccomment'>/// for p in WalkDir::new( WalkDirConf::new( path ) ) {</span>
-<span class='doccomment'>///     println!( &quot;{:?}&quot;, p.unwrap() );</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// `WalkDirConf` is a configuration builder of directory walking.</span>
-<span class='doccomment'>/// For example, if you want to follow symblic links, you can use `follow_symlink()` like the following.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>/// # use std::path::Path;</span>
-<span class='doccomment'>/// # use fts::walkdir::{WalkDir, WalkDirConf};</span>
-<span class='doccomment'>/// let path = Path::new( &quot;test&quot; );</span>
-<span class='doccomment'>/// for p in WalkDir::new( WalkDirConf::new( path ).follow_symlink() ) {</span>
-<span class='doccomment'>///     println!( &quot;{:?}&quot;, p.unwrap() );</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// If you want to use metadata of files, you can use `no_metadata()` for performance optimization like the following.</span>
-<span class='doccomment'>///</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>/// # use std::path::Path;</span>
-<span class='doccomment'>/// # use fts::walkdir::{WalkDir, WalkDirConf};</span>
-<span class='doccomment'>/// let path = Path::new( &quot;test&quot; );</span>
-<span class='doccomment'>/// for p in WalkDir::new( WalkDirConf::new( path ).no_metadata() ) {</span>
-<span class='doccomment'>///     println!( &quot;{:?}&quot;, p.unwrap() );</span>
-<span class='doccomment'>/// }</span>
-<span class='doccomment'>/// ```</span>
-<span class='doccomment'>///</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>WalkDir</span> {
     <span class='ident'>conf</span>: <span class='ident'>WalkDirConf</span>,
     <span class='ident'>fts</span> : <span class='ident'>Fts</span>        ,
@@ -890,6 +960,40 @@
             <span class='macro'>assert_eq</span><span class='macro'>!</span>( <span class='ident'>iter</span>.<span class='ident'>next</span>().<span class='ident'>unwrap</span>().<span class='ident'>file_name</span>(), <span class='string'>&quot;2&quot;</span> );
         }
 
+    }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>sort_time</span>() {
+        <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>( <span class='string'>&quot;test/sort&quot;</span> );
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_atime</span>().<span class='ident'>sort_ascending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
+
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_atime</span>().<span class='ident'>sort_descending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
+
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_mtime</span>().<span class='ident'>sort_ascending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
+
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_mtime</span>().<span class='ident'>sort_descending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
+
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_ctime</span>().<span class='ident'>sort_ascending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
+
+        {
+            <span class='kw'>let</span> <span class='ident'>conf</span> <span class='op'>=</span> <span class='ident'>WalkDirConf</span>::<span class='ident'>new</span>( <span class='ident'>path</span> ).<span class='ident'>sort_by_ctime</span>().<span class='ident'>sort_descending</span>();
+            <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='ident'>WalkDir</span>::<span class='ident'>new</span>( <span class='ident'>conf</span> ) { }
+        }
     }
 
 }

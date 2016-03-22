@@ -46,11 +46,12 @@
             <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                 [<span class='inner'>&#x2212;</span>]
             </a>
-        </span><a id='src-100' class='srclink' href='../../src/fts/ffi.rs.html#178' title='goto source code'>[src]</a></span></h1>
+        </span><a id='src-100' class='srclink' href='../../src/fts/ffi.rs.html#186' title='goto source code'>[src]</a></span></h1>
 <pre class='rust fn'>pub unsafe extern fn fts_children(ftsp: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*mut <a class='enum' href='../../fts/ffi/enum.FTS.html' title='fts::ffi::FTS'>FTS</a></a>, options: <a class='type' href='https://doc.rust-lang.org/libc/x86_64-unknown-linux-gnu/libc/type.c_int.html' title='libc::c_int'>c_int</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.pointer.html'>*const <a class='struct' href='../../fts/ffi/struct.FTSENT.html' title='fts::ffi::FTSENT'>FTSENT</a></a></pre><div class='docblock'><p>fts_children() in fts.h</p>
 
 <h1 id='c-function' class='section-header'><a href='#c-function'>C function</a></h1>
-<p>FTSENT *fts_children(FTS *ftsp, int options);</p>
+<pre><code class="language-c">FTSENT *fts_children(FTS *ftsp, int options);
+</code></pre>
 
 <h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
 <p><code>ftsp</code> must be a valid pointer of struct FTS.</p>

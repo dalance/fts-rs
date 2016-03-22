@@ -510,7 +510,20 @@
 <span id="467">467</span>
 <span id="468">468</span>
 <span id="469">469</span>
+<span id="470">470</span>
+<span id="471">471</span>
+<span id="472">472</span>
+<span id="473">473</span>
+<span id="474">474</span>
+<span id="475">475</span>
+<span id="476">476</span>
+<span id="477">477</span>
+<span id="478">478</span>
+<span id="479">479</span>
+<span id="480">480</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! A wrapper library of libc fts.</span>
+
 <span class='kw'>use</span> <span class='ident'>ffi</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cmp</span>::<span class='ident'>Ordering</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ffi</span>::{<span class='ident'>CString</span>, <span class='ident'>OsStr</span>};
@@ -662,7 +675,7 @@
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>to_path</span>( <span class='ident'>buf</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>, <span class='ident'>len</span>: <span class='ident'>usize</span> ) <span class='op'>-&gt;</span> <span class='ident'>PathBuf</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_path</span>( <span class='ident'>buf</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>len</span>: <span class='ident'>usize</span> ) <span class='op'>-&gt;</span> <span class='ident'>PathBuf</span> {
         <span class='kw'>unsafe</span> {
             <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>slice</span>::<span class='ident'>from_raw_parts</span>( <span class='ident'>buf</span>, <span class='ident'>len</span> );
             <span class='kw'>let</span> <span class='ident'>osstr</span> <span class='op'>=</span> <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>( <span class='ident'>slice</span> );
@@ -676,11 +689,11 @@
         }
 
         <span class='kw'>let</span> <span class='ident'>len</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_namelen</span> <span class='kw'>as</span> <span class='ident'>usize</span> };
-        <span class='kw'>let</span> <span class='ident'>ptr</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>::<span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>i8</span>;<span class='number'>1</span>], <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span><span class='op'>&gt;</span>( <span class='kw-2'>&amp;</span>(<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_name</span> ) };
+        <span class='kw'>let</span> <span class='ident'>ptr</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { ( <span class='kw-2'>&amp;</span>(<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_name</span> ) <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> };
         <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>Fts</span>::<span class='ident'>to_path</span>( <span class='ident'>ptr</span>, <span class='ident'>len</span> );
 
         <span class='kw'>let</span> <span class='ident'>len</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_pathlen</span> <span class='kw'>as</span> <span class='ident'>usize</span> };
-        <span class='kw'>let</span> <span class='ident'>ptr</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_path</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span> };
+        <span class='kw'>let</span> <span class='ident'>ptr</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_path</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> };
         <span class='kw'>let</span> <span class='ident'>path</span> <span class='op'>=</span> <span class='ident'>Fts</span>::<span class='ident'>to_path</span>( <span class='ident'>ptr</span>, <span class='ident'>len</span> );
 
         <span class='kw'>let</span> <span class='ident'>info</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_info</span> <span class='kw'>as</span> <span class='ident'>isize</span> };
@@ -809,12 +822,12 @@
     }
 
     <span class='kw'>fn</span> <span class='ident'>to_name</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>( <span class='ident'>ent</span>:<span class='op'>*</span><span class='kw'>const</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>ffi</span>::<span class='ident'>FTSENT</span> ) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>OsStr</span> {
-        <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_namelen</span> <span class='kw'>as</span> <span class='ident'>usize</span> };
-        <span class='kw'>let</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>::<span class='op'>&lt;</span><span class='kw-2'>&amp;</span>[<span class='ident'>i8</span>;<span class='number'>1</span>], <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span><span class='op'>&gt;</span>( <span class='kw-2'>&amp;</span>(<span class='op'>*</span><span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_name</span> ) };
+        <span class='kw'>let</span> <span class='ident'>len</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { (<span class='op'>*</span><span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_namelen</span> <span class='kw'>as</span> <span class='ident'>usize</span> };
+        <span class='kw'>let</span> <span class='ident'>ptr</span>  <span class='op'>=</span> <span class='kw'>unsafe</span> { ( <span class='kw-2'>&amp;</span>(<span class='op'>*</span><span class='op'>*</span><span class='ident'>ent</span>).<span class='ident'>fts_name</span> ) <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span> };
         <span class='ident'>FtsComp</span>::<span class='ident'>to_osstr</span>( <span class='ident'>ptr</span>, <span class='ident'>len</span> )
     }
 
-    <span class='kw'>fn</span> <span class='ident'>to_osstr</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>( <span class='ident'>buf</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>, <span class='ident'>len</span>: <span class='ident'>usize</span> ) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>OsStr</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_osstr</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>( <span class='ident'>buf</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>len</span>: <span class='ident'>usize</span> ) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>OsStr</span> {
         <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='kw'>unsafe</span> { <span class='ident'>slice</span>::<span class='ident'>from_raw_parts</span>( <span class='ident'>buf</span>, <span class='ident'>len</span> ) };
         <span class='ident'>OsStr</span>::<span class='ident'>from_bytes</span>( <span class='ident'>slice</span> )
     }
@@ -964,7 +977,7 @@
     }
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
-    <span class='kw'>fn</span> <span class='ident'>by_name_ascending</span>() {
+    <span class='kw'>fn</span> <span class='ident'>sort</span>() {
         <span class='kw'>let</span> <span class='ident'>paths</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>String</span>::<span class='ident'>from</span>( <span class='string'>&quot;test/sort&quot;</span> )];
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>fts</span> <span class='op'>=</span> <span class='ident'>Fts</span>::<span class='ident'>new</span>( <span class='ident'>paths</span>, <span class='ident'>fts_option</span>::<span class='ident'>LOGICAL</span>, <span class='prelude-val'>Some</span>( <span class='ident'>FtsComp</span>::<span class='ident'>by_name_ascending</span> ) ).<span class='ident'>unwrap</span>();
         <span class='comment'>//let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_descending ) ).unwrap();</span>
@@ -973,11 +986,20 @@
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>ftsent</span> <span class='op'>=</span> <span class='ident'>fts</span>.<span class='ident'>read</span>();
         <span class='kw'>while</span> <span class='ident'>ftsent</span>.<span class='ident'>is_some</span>() {
             <span class='kw'>let</span> <span class='ident'>ent</span> <span class='op'>=</span> <span class='ident'>ftsent</span>.<span class='ident'>unwrap</span>();
-            <span class='comment'>//println!( &quot;{:?}&quot;, ent );</span>
             <span class='ident'>check_entry</span>( <span class='ident'>ent</span>, <span class='boolval'>true</span> );
             <span class='ident'>ftsent</span> <span class='op'>=</span> <span class='ident'>fts</span>.<span class='ident'>read</span>();
         }
     }
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>path_with_null</span>() {
+        <span class='kw'>let</span> <span class='ident'>paths</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>String</span>::<span class='ident'>from</span>( <span class='string'>&quot;test\0/sort&quot;</span> )];
+        <span class='kw'>let</span> <span class='ident'>fts</span> <span class='op'>=</span> <span class='ident'>Fts</span>::<span class='ident'>new</span>( <span class='ident'>paths</span>, <span class='ident'>fts_option</span>::<span class='ident'>LOGICAL</span>, <span class='prelude-val'>None</span> );
+        <span class='kw'>match</span> <span class='ident'>fts</span> {
+            <span class='prelude-val'>Err</span>( <span class='ident'>FtsError</span>::<span class='ident'>PathWithNull</span> ) <span class='op'>=&gt;</span> <span class='macro'>assert</span><span class='macro'>!</span>( <span class='boolval'>true</span>  ),
+            _                             <span class='op'>=&gt;</span> <span class='macro'>assert</span><span class='macro'>!</span>( <span class='boolval'>false</span> ),
+        }
+   }
 
 }
 </pre>

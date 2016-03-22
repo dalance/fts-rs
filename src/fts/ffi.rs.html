@@ -322,7 +322,21 @@
 <span id="279">279</span>
 <span id="280">280</span>
 <span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Bindings for libc fts.</span>
+
 <span class='kw'>use</span> <span class='ident'>libc</span>::<span class='op'>*</span>;
 
 <span class='doccomment'>/// struct FTS in fts.h ( opaque struct )</span>
@@ -371,7 +385,7 @@
     <span class='doccomment'>/// stat(2) information</span>
     <span class='kw'>pub</span> <span class='ident'>fts_statp</span>  : <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>stat</span>  ,
     <span class='doccomment'>/// file name</span>
-    <span class='kw'>pub</span> <span class='ident'>fts_name</span>   : [<span class='ident'>c_char</span>;<span class='number'>1</span>]   ,
+    <span class='kw'>pub</span> <span class='ident'>fts_name</span>   : [<span class='ident'>u8</span>;<span class='number'>0</span>]   ,
 }
 
 <span class='doccomment'>/// fts_level: level of root parent</span>
@@ -445,8 +459,10 @@
     <span class='doccomment'>/// fts_open() in fts.h</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # C function</span>
+    <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// FTS *fts_open(char * const *path_argv, int options, </span>
     <span class='doccomment'>///               int (*compar)(const FTSENT **, const FTSENT **));</span>
+    <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Safety</span>
     <span class='doccomment'>/// `path_argv` must be a pointer of a null-terminated array of C strings( null-terminated ).</span>
@@ -467,7 +483,9 @@
     <span class='doccomment'>/// fts_read() in fts.h</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # C function</span>
+    <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// FTSENT *fts_read(FTS *ftsp);</span>
+    <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Safety</span>
     <span class='doccomment'>/// `ftsp` must be a valid pointer of struct FTS.</span>
@@ -485,7 +503,9 @@
     <span class='doccomment'>/// fts_children() in fts.h</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # C function</span>
+    <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// FTSENT *fts_children(FTS *ftsp, int options);</span>
+    <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Safety</span>
     <span class='doccomment'>/// `ftsp` must be a valid pointer of struct FTS.</span>
@@ -505,7 +525,9 @@
     <span class='doccomment'>/// fts_set() in fts.h</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # C function</span>
+    <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// int fts_set(FTS *ftsp, FTSENT *f, int options);</span>
+    <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Safety</span>
     <span class='doccomment'>/// `ftsp` must be a valid pointer of struct FTS.</span>
@@ -528,7 +550,9 @@
     <span class='doccomment'>/// fts_close() in fts.h</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # C function</span>
+    <span class='doccomment'>/// ```c</span>
     <span class='doccomment'>/// int fts_close(FTS *ftsp);</span>
+    <span class='doccomment'>/// ```</span>
     <span class='doccomment'>///</span>
     <span class='doccomment'>/// # Safety</span>
     <span class='doccomment'>/// `ftsp` must be a valid pointer of struct FTS.</span>
