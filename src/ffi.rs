@@ -1,3 +1,5 @@
+//! Bindings for libc fts.
+
 use libc::*;
 
 /// struct FTS in fts.h ( opaque struct )
@@ -120,8 +122,10 @@ extern {
     /// fts_open() in fts.h
     ///
     /// # C function
+    /// ```c
     /// FTS *fts_open(char * const *path_argv, int options, 
     ///               int (*compar)(const FTSENT **, const FTSENT **));
+    /// ```
     ///
     /// # Safety
     /// `path_argv` must be a pointer of a null-terminated array of C strings( null-terminated ).
@@ -142,7 +146,9 @@ extern {
     /// fts_read() in fts.h
     ///
     /// # C function
+    /// ```c
     /// FTSENT *fts_read(FTS *ftsp);
+    /// ```
     ///
     /// # Safety
     /// `ftsp` must be a valid pointer of struct FTS.
@@ -160,7 +166,9 @@ extern {
     /// fts_children() in fts.h
     ///
     /// # C function
+    /// ```c
     /// FTSENT *fts_children(FTS *ftsp, int options);
+    /// ```
     ///
     /// # Safety
     /// `ftsp` must be a valid pointer of struct FTS.
@@ -180,7 +188,9 @@ extern {
     /// fts_set() in fts.h
     ///
     /// # C function
+    /// ```c
     /// int fts_set(FTS *ftsp, FTSENT *f, int options);
+    /// ```
     ///
     /// # Safety
     /// `ftsp` must be a valid pointer of struct FTS.
@@ -203,7 +213,9 @@ extern {
     /// fts_close() in fts.h
     ///
     /// # C function
+    /// ```c
     /// int fts_close(FTS *ftsp);
+    /// ```
     ///
     /// # Safety
     /// `ftsp` must be a valid pointer of struct FTS.

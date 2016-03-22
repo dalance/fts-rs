@@ -1,3 +1,5 @@
+//! A wrapper library of libc fts.
+
 use ffi;
 use std::cmp::Ordering;
 use std::ffi::{CString, OsStr};
@@ -130,7 +132,10 @@ impl Fts {
             }
         }
         c_paths.push( ptr::null() );
+
         let fts = unsafe { ffi::fts_open( c_paths.as_ptr(), option.bits() as i32, cmp ) };
+        assert!( !fts.is_null() );
+
         Ok( Fts { fts: fts, opt: option } )
     }
 
@@ -150,11 +155,9 @@ impl Fts {
     }
 
     fn to_path( buf: *const u8, len: usize ) -> PathBuf {
-        unsafe {
-            let slice = slice::from_raw_parts( buf, len );
-            let osstr = OsStr::from_bytes( slice );
-            Path::new( osstr ).to_path_buf()
-        }
+        let slice = unsafe { slice::from_raw_parts( buf, len ) };
+        let osstr = OsStr::from_bytes( slice );
+        Path::new( osstr ).to_path_buf()
     }
 
     fn to_fts_entry( ent: *const ffi::FTSENT, is_no_stat: bool ) -> Option<FtsEntry> {
@@ -195,9 +198,7 @@ impl Fts {
 
 impl Drop for Fts {
     fn drop( &mut self ) {
-        unsafe {
-            ffi::fts_close( self.fts );
-        }
+        unsafe { ffi::fts_close( self.fts ); }
     }
 }
 
@@ -308,38 +309,26 @@ impl FtsComp {
 
     fn to_atime( ent:*const *const ffi::FTSENT ) -> c_long {
         let statp = unsafe { (**ent).fts_statp };
-        if statp.is_null() {
-            0
-        } else {
-            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).atime_nsec() }
-        }
+        assert!( !statp.is_null() );
+        unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).atime_nsec() }
     }
 
     fn to_mtime( ent:*const *const ffi::FTSENT ) -> c_long {
         let statp = unsafe { (**ent).fts_statp };
-        if statp.is_null() {
-            0
-        } else {
-            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).mtime_nsec() }
-        }
+        assert!( !statp.is_null() );
+        unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).mtime_nsec() }
     }
 
     fn to_ctime( ent:*const *const ffi::FTSENT ) -> c_long {
         let statp = unsafe { (**ent).fts_statp };
-        if statp.is_null() {
-            0
-        } else {
-            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).ctime_nsec() }
-        }
+        assert!( !statp.is_null() );
+        unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).ctime_nsec() }
     }
 
     fn to_len( ent:*const *const ffi::FTSENT ) -> u64 {
         let statp = unsafe { (**ent).fts_statp };
-        if statp.is_null() {
-            0
-        } else {
-            unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).len() }
-        }
+        assert!( !statp.is_null() );
+        unsafe{ (*mem::transmute::<*const stat, *const Metadata>( (**ent).fts_statp )).len() }
     }
 
 }

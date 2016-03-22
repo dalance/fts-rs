@@ -1,3 +1,53 @@
+//! A library for directory walking.
+//!
+//! # Examples
+//! The simplest usage is the following.
+//!
+//! ```
+//! # use std::path::Path;
+//! # use fts::walkdir::{WalkDir, WalkDirConf};
+//! let path = Path::new( "test" );
+//! for p in WalkDir::new( WalkDirConf::new( path ) ) {
+//!     println!( "{:?}", p.unwrap() );
+//! }
+//! ```
+//!
+//! `WalkDirConf` is a configuration builder of directory walking.
+//! For example, if you want to follow symblic links, you can use `follow_symlink()` like the following.
+//!
+//! ```
+//! # use std::path::Path;
+//! # use fts::walkdir::{WalkDir, WalkDirConf};
+//! let path = Path::new( "test" );
+//! for p in WalkDir::new( WalkDirConf::new( path ).follow_symlink() ) {
+//!     println!( "{:?}", p.unwrap() );
+//! }
+//! ```
+//!
+//! If you don't want to use metadata of files, you can use `no_metadata()` for performance optimization like the following.
+//!
+//! ```
+//! # use std::path::Path;
+//! # use fts::walkdir::{WalkDir, WalkDirConf};
+//! let path = Path::new( "test" );
+//! for p in WalkDir::new( WalkDirConf::new( path ).no_metadata() ) {
+//!     println!( "{:?}", p.unwrap() );
+//! }
+//! ```
+//!
+//! If you want to enumerate directories sorted by the creation time of file, you can use `sort_by_ctime()`.
+//! `sort_ascending()` means sorting in ascending order, and `sort_descending()` means descending order.
+//!
+//! ```
+//! # use std::path::Path;
+//! # use fts::walkdir::{WalkDir, WalkDirConf};
+//! let path = Path::new( "test" );
+//! for p in WalkDir::new( WalkDirConf::new( path ).sort_by_ctime().sort_ascending() ) {
+//!     println!( "{:?}", p.unwrap() );
+//! }
+//! ```
+//!
+
 use std::ffi::OsStr;
 use std::fmt;
 use std::fs::Metadata;
@@ -9,6 +59,7 @@ use fts::{Fts, FtsComp, FtsCompFunc, FtsEntry, FtsInfo, fts_option};
 // DirEntry
 // ---------------------------------------------------------------------------------------------------------------------
 
+/// A directory entry like `std::fs::DirEntry`.
 pub struct DirEntry {
     ent: FtsEntry,
 }
@@ -56,6 +107,7 @@ impl fmt::Debug for DirEntry {
 // FileType
 // ---------------------------------------------------------------------------------------------------------------------
 
+/// A file type of the directory entry like `std::fs::FileType`.
 pub struct FileType {
     info: FtsInfo,
 }
@@ -84,6 +136,7 @@ impl FileType {
 // Iter
 // ---------------------------------------------------------------------------------------------------------------------
 
+/// A iterator for enumerating directory entries.
 pub struct Iter {
     fts: Fts,
 }
@@ -126,6 +179,7 @@ enum SortDir {
     Descending,
 }
 
+/// A configuration builder of the settings for directory walking.
 pub struct WalkDirConf {
     path          : String ,
     follow_symlink: bool   ,
@@ -232,42 +286,6 @@ impl WalkDirConf {
 // ---------------------------------------------------------------------------------------------------------------------
 
 /// A builder to create an iterator for directory walking.
-///
-/// # Examples
-/// The simplest usage is the following.
-///
-/// ```
-/// # use std::path::Path;
-/// # use fts::walkdir::{WalkDir, WalkDirConf};
-/// let path = Path::new( "test" );
-/// for p in WalkDir::new( WalkDirConf::new( path ) ) {
-///     println!( "{:?}", p.unwrap() );
-/// }
-/// ```
-///
-/// `WalkDirConf` is a configuration builder of directory walking.
-/// For example, if you want to follow symblic links, you can use `follow_symlink()` like the following.
-///
-/// ```
-/// # use std::path::Path;
-/// # use fts::walkdir::{WalkDir, WalkDirConf};
-/// let path = Path::new( "test" );
-/// for p in WalkDir::new( WalkDirConf::new( path ).follow_symlink() ) {
-///     println!( "{:?}", p.unwrap() );
-/// }
-/// ```
-///
-/// If you want to use metadata of files, you can use `no_metadata()` for performance optimization like the following.
-///
-/// ```
-/// # use std::path::Path;
-/// # use fts::walkdir::{WalkDir, WalkDirConf};
-/// let path = Path::new( "test" );
-/// for p in WalkDir::new( WalkDirConf::new( path ).no_metadata() ) {
-///     println!( "{:?}", p.unwrap() );
-/// }
-/// ```
-///
 pub struct WalkDir {
     conf: WalkDirConf,
     fts : Fts        ,
@@ -282,18 +300,22 @@ impl WalkDir {
         option = if conf.no_metadata  { option | fts_option::NOSTAT  } else { option };
         option = if conf.no_chdir     { option | fts_option::NOCHDIR } else { option };
 
+        let is_ascending  = conf.sort_dir == SortDir::Ascending ;
+        let is_descending = conf.sort_dir == SortDir::Descending;
+        let is_metadata   = !conf.no_metadata;
+
         let sorter = match conf.sort_by {
-            SortBy::Name  if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_name_ascending   as FtsCompFunc ),
-            SortBy::Name  if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_name_descending  as FtsCompFunc ),
-            SortBy::Len   if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_len_ascending    as FtsCompFunc ),
-            SortBy::Len   if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_len_descending   as FtsCompFunc ),
-            SortBy::ATime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_atime_ascending  as FtsCompFunc ),
-            SortBy::ATime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_atime_descending as FtsCompFunc ),
-            SortBy::CTime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_ctime_ascending  as FtsCompFunc ),
-            SortBy::CTime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_ctime_descending as FtsCompFunc ),
-            SortBy::MTime if conf.sort_dir == SortDir::Ascending  => Some( FtsComp::by_mtime_ascending  as FtsCompFunc ),
-            SortBy::MTime if conf.sort_dir == SortDir::Descending => Some( FtsComp::by_mtime_descending as FtsCompFunc ),
-            _                                                     => None,
+            SortBy::Name  if is_ascending                 => Some( FtsComp::by_name_ascending   as FtsCompFunc ),
+            SortBy::Name  if is_descending                => Some( FtsComp::by_name_descending  as FtsCompFunc ),
+            SortBy::Len   if is_ascending  && is_metadata => Some( FtsComp::by_len_ascending    as FtsCompFunc ),
+            SortBy::Len   if is_descending && is_metadata => Some( FtsComp::by_len_descending   as FtsCompFunc ),
+            SortBy::ATime if is_ascending  && is_metadata => Some( FtsComp::by_atime_ascending  as FtsCompFunc ),
+            SortBy::ATime if is_descending && is_metadata => Some( FtsComp::by_atime_descending as FtsCompFunc ),
+            SortBy::CTime if is_ascending  && is_metadata => Some( FtsComp::by_ctime_ascending  as FtsCompFunc ),
+            SortBy::CTime if is_descending && is_metadata => Some( FtsComp::by_ctime_descending as FtsCompFunc ),
+            SortBy::MTime if is_ascending  && is_metadata => Some( FtsComp::by_mtime_ascending  as FtsCompFunc ),
+            SortBy::MTime if is_descending && is_metadata => Some( FtsComp::by_mtime_descending as FtsCompFunc ),
+            _                                             => None,
         };
 
         let path = conf.path.clone();
@@ -425,35 +447,18 @@ mod test {
     #[test]
     fn sort_time() {
         let path = Path::new( "test/sort" );
-        {
-            let conf = WalkDirConf::new( path ).sort_by_atime().sort_ascending();
-            for _ in WalkDir::new( conf ) { }
-        }
-
-        {
-            let conf = WalkDirConf::new( path ).sort_by_atime().sort_descending();
-            for _ in WalkDir::new( conf ) { }
-        }
-
-        {
-            let conf = WalkDirConf::new( path ).sort_by_mtime().sort_ascending();
-            for _ in WalkDir::new( conf ) { }
-        }
-
-        {
-            let conf = WalkDirConf::new( path ).sort_by_mtime().sort_descending();
-            for _ in WalkDir::new( conf ) { }
-        }
-
-        {
-            let conf = WalkDirConf::new( path ).sort_by_ctime().sort_ascending();
-            for _ in WalkDir::new( conf ) { }
-        }
-
-        {
-            let conf = WalkDirConf::new( path ).sort_by_ctime().sort_descending();
-            for _ in WalkDir::new( conf ) { }
-        }
+        { let conf = WalkDirConf::new( path ).sort_by_atime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).sort_by_atime().sort_descending(); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).sort_by_mtime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).sort_by_mtime().sort_descending(); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).sort_by_ctime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).sort_by_ctime().sort_descending(); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_atime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_atime().sort_descending(); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_mtime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_mtime().sort_descending(); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_ctime().sort_ascending (); for _ in WalkDir::new( conf ) { } }
+        { let conf = WalkDirConf::new( path ).no_metadata().sort_by_ctime().sort_descending(); for _ in WalkDir::new( conf ) { } }
     }
 
 }
