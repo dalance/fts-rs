@@ -124,16 +124,21 @@ pub struct Fts {
 
 impl Fts {
     pub fn new( paths: Vec<String>, option: fts_option::Flags, cmp: Option<FtsCompFunc> ) -> Result<Self, FtsError> {
-        let mut c_paths = Vec::new();
+        // c_paths holding memory until the end of function.
+        let mut c_paths     = Vec::new();
+        let mut c_path_ptrs = Vec::new();
         for p in paths {
             match CString::new( p ) {
-                Ok ( p ) => c_paths.push( p.as_ptr() ),
+                Ok ( p ) => {
+                    c_path_ptrs.push( p.as_ptr() );
+                    c_paths.push( p );
+                },
                 Err( _ ) => return Err( FtsError::PathWithNull ),
             }
         }
-        c_paths.push( ptr::null() );
+        c_path_ptrs.push( ptr::null() );
 
-        let fts = unsafe { ffi::fts_open( c_paths.as_ptr(), option.bits() as i32, cmp ) };
+        let fts = unsafe { ffi::fts_open( c_path_ptrs.as_ptr(), option.bits() as i32, cmp ) };
         assert!( !fts.is_null() );
 
         Ok( Fts { fts: fts, opt: option } )

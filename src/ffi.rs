@@ -134,8 +134,8 @@ extern {
     ///
     /// # Examples
     /// ```
-    /// let path  = std::ffi::CString::new( "." ).unwrap().as_ptr();
-    /// let paths = vec![path, std::ptr::null()];
+    /// let path  = std::ffi::CString::new( "." ).unwrap();
+    /// let paths = vec![path.as_ptr(), std::ptr::null()];
     /// let _fts  = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_open$INODE64")]
@@ -155,8 +155,8 @@ extern {
     ///
     /// # Examples
     /// ```
-    /// let path    = std::ffi::CString::new( "." ).unwrap().as_ptr();
-    /// let paths   = vec![path, std::ptr::null()];
+    /// let path    = std::ffi::CString::new( "." ).unwrap();
+    /// let paths   = vec![path.as_ptr(), std::ptr::null()];
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// ```
@@ -177,8 +177,8 @@ extern {
     ///
     /// # Examples
     /// ```
-    /// let path    = std::ffi::CString::new( "." ).unwrap().as_ptr();
-    /// let paths   = vec![path, std::ptr::null()];
+    /// let path    = std::ffi::CString::new( "." ).unwrap();
+    /// let paths   = vec![path.as_ptr(), std::ptr::null()];
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_children( fts, 0 ) };
     /// ```
@@ -201,8 +201,8 @@ extern {
     ///
     /// # Examples
     /// ```
-    /// let path   = std::ffi::CString::new( "." ).unwrap().as_ptr();
-    /// let paths  = vec![path, std::ptr::null()];
+    /// let path   = std::ffi::CString::new( "." ).unwrap();
+    /// let paths  = vec![path.as_ptr(), std::ptr::null()];
     /// let fts    = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// let _      = unsafe { fts::ffi::fts_set( fts, ftsent, fts::ffi::FTS_AGAIN ) };
@@ -222,8 +222,8 @@ extern {
     ///
     /// # Examples
     /// ```
-    /// let path   = std::ffi::CString::new( "." ).unwrap().as_ptr();
-    /// let paths  = vec![path, std::ptr::null()];
+    /// let path   = std::ffi::CString::new( "." ).unwrap();
+    /// let paths  = vec![path.as_ptr(), std::ptr::null()];
     /// let fts    = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _      = unsafe { fts::ffi::fts_close( fts ) };
     /// ```
@@ -255,9 +255,9 @@ mod test {
     #[test]
     fn normal() {
         unsafe {
-            let path  = CString::new( "." ).unwrap().as_ptr();
-            let paths = vec![path, ptr::null()];
-            let fts   = fts_open( paths.as_ptr(), FTS_LOGICAL, None );
+            let path  = CString::new( "." ).unwrap();
+            let paths = vec![path.as_ptr(), ptr::null()];
+            let fts   = fts_open( paths.as_ptr(), 0, None );
             assert!( !fts.is_null() );
 
             let mut ftsent = fts_read( fts );
@@ -274,8 +274,8 @@ mod test {
     #[test]
     fn children() {
         unsafe {
-            let path  = CString::new( "." ).unwrap().as_ptr();
-            let paths = vec![path, ptr::null()];
+            let path  = CString::new( "." ).unwrap();
+            let paths = vec![path.as_ptr(), ptr::null()];
             let fts   = fts_open( paths.as_ptr(), FTS_LOGICAL, None );
             assert!( !fts.is_null() );
 
