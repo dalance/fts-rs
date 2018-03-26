@@ -10,120 +10,120 @@ pub enum FTS {}
 #[derive(Debug)]
 pub struct FTSENT {
     /// cycle node
-    pub fts_cycle  : *const FTSENT,
+    pub fts_cycle: *const FTSENT,
     /// parent directory
-    pub fts_parent : *const FTSENT,
+    pub fts_parent: *const FTSENT,
     /// next file in directory
-    pub fts_link   : *const FTSENT,
+    pub fts_link: *const FTSENT,
     /// local numeric value
-    pub fts_number : c_long       ,
+    pub fts_number: c_long,
     /// local address value
     pub fts_pointer: *const c_void,
     /// access path
     pub fts_accpath: *const c_char,
     /// root path
-    pub fts_path   : *const c_char,
+    pub fts_path: *const c_char,
     /// errno for this node
-    pub fts_errno  : c_int        ,
+    pub fts_errno: c_int,
     /// fd for symlink
-    pub fts_symfd  : c_int        ,
+    pub fts_symfd: c_int,
     /// strlen(fts_path)
-    pub fts_pathlen: c_ushort     ,
+    pub fts_pathlen: c_ushort,
     /// strlen(fts_name)
-    pub fts_namelen: c_ushort     ,
+    pub fts_namelen: c_ushort,
     /// inode
-    pub fts_ino    : ino_t        ,
+    pub fts_ino: ino_t,
     /// device
-    pub fts_dev    : dev_t        ,
+    pub fts_dev: dev_t,
     /// link count
-    pub fts_nlink  : nlink_t      ,
+    pub fts_nlink: nlink_t,
     /// depth (-1 to N)
-    pub fts_level  : c_short      ,
+    pub fts_level: c_short,
     /// user flags for FTSENT structure
-    pub fts_info   : c_ushort     ,
+    pub fts_info: c_ushort,
     /// private flags for FTSENT structure
-    pub fts_flags  : c_ushort     ,
+    pub fts_flags: c_ushort,
     /// fts_set() instructions
-    pub fts_instr  : c_ushort     ,
+    pub fts_instr: c_ushort,
     /// stat(2) information
-    pub fts_statp  : *const stat  ,
+    pub fts_statp: *const stat,
     /// file name
-    pub fts_name   : [u8;0]   ,
+    pub fts_name: [u8; 0],
 }
 
 /// fts_level: level of root parent
-pub const FTS_ROOTPARENTLEVEL: c_short  = -1    ;
+pub const FTS_ROOTPARENTLEVEL: c_short = -1;
 /// fts_level: level of root
-pub const FTS_ROOTLEVEL      : c_short  = 0     ;
+pub const FTS_ROOTLEVEL: c_short = 0;
 /// fts_info: preorder directory
-pub const FTS_D              : c_ushort = 1     ;
+pub const FTS_D: c_ushort = 1;
 /// fts_info: directory that causes cycles
-pub const FTS_DC             : c_ushort = 2     ;
+pub const FTS_DC: c_ushort = 2;
 /// fts_info: none of the above
-pub const FTS_DEFAULT        : c_ushort = 3     ;
+pub const FTS_DEFAULT: c_ushort = 3;
 /// fts_info: unreadable directory
-pub const FTS_DNR            : c_ushort = 4     ;
+pub const FTS_DNR: c_ushort = 4;
 /// fts_info: dot or dot-dot
-pub const FTS_DOT            : c_ushort = 5     ;
+pub const FTS_DOT: c_ushort = 5;
 /// fts_info: postorder directory
-pub const FTS_DP             : c_ushort = 6     ;
+pub const FTS_DP: c_ushort = 6;
 /// fts_info: error; errno is set
-pub const FTS_ERR            : c_ushort = 7     ;
+pub const FTS_ERR: c_ushort = 7;
 /// fts_info: regular file
-pub const FTS_F              : c_ushort = 8     ;
+pub const FTS_F: c_ushort = 8;
 /// fts_info: initialized only
-pub const FTS_INIT           : c_ushort = 9     ;
+pub const FTS_INIT: c_ushort = 9;
 /// fts_info: stat(2) failed
-pub const FTS_NS             : c_ushort = 10    ;
+pub const FTS_NS: c_ushort = 10;
 /// fts_info: no stat(2) requested
-pub const FTS_NSOK           : c_ushort = 11    ;
+pub const FTS_NSOK: c_ushort = 11;
 /// fts_info: symbolic link
-pub const FTS_SL             : c_ushort = 12    ;
+pub const FTS_SL: c_ushort = 12;
 /// fts_info: symbolic link without target
-pub const FTS_SLNONE         : c_ushort = 13    ;
+pub const FTS_SLNONE: c_ushort = 13;
 /// fts_info: whiteout object
-pub const FTS_W              : c_ushort = 14    ;
+pub const FTS_W: c_ushort = 14;
 /// fts_flags: don't chdir .. to the parent
-pub const FTS_DONTCHDIR      : c_ushort = 0x01  ;
+pub const FTS_DONTCHDIR: c_ushort = 0x01;
 /// fts_flags: followed a symlink to get here
-pub const FTS_SYMFOLLOW      : c_ushort = 0x02  ;
+pub const FTS_SYMFOLLOW: c_ushort = 0x02;
 /// fts_instr: read node again
-pub const FTS_AGAIN          : c_int    = 1     ;
+pub const FTS_AGAIN: c_int = 1;
 /// fts_instr: follow symbolic link
-pub const FTS_FOLLOW         : c_int    = 2     ;
+pub const FTS_FOLLOW: c_int = 2;
 /// fts_instr: no instructions
-pub const FTS_NOINSTR        : c_int    = 3     ;
+pub const FTS_NOINSTR: c_int = 3;
 /// fts_instr: discard node
-pub const FTS_SKIP           : c_int    = 4     ;
+pub const FTS_SKIP: c_int = 4;
 /// fts_open options: follow command line symlinks
-pub const FTS_COMFOLLOW      : c_int    = 0x0001;
+pub const FTS_COMFOLLOW: c_int = 0x0001;
 /// fts_open options: logical walk
-pub const FTS_LOGICAL        : c_int    = 0x0002;
+pub const FTS_LOGICAL: c_int = 0x0002;
 /// fts_open options: don't change directories
-pub const FTS_NOCHDIR        : c_int    = 0x0004;
+pub const FTS_NOCHDIR: c_int = 0x0004;
 /// fts_open options: don't get stat info
-pub const FTS_NOSTAT         : c_int    = 0x0008;
+pub const FTS_NOSTAT: c_int = 0x0008;
 /// fts_open options: physical walk
-pub const FTS_PHYSICAL       : c_int    = 0x0010;
+pub const FTS_PHYSICAL: c_int = 0x0010;
 /// fts_open options: return dot and dot-dot
-pub const FTS_SEEDOT         : c_int    = 0x0020;
+pub const FTS_SEEDOT: c_int = 0x0020;
 /// fts_open options: don't cross devices
-pub const FTS_XDEV           : c_int    = 0x0040;
+pub const FTS_XDEV: c_int = 0x0040;
 /// fts_open options: return whiteout information
-pub const FTS_WHITEOUT       : c_int    = 0x0080;
+pub const FTS_WHITEOUT: c_int = 0x0080;
 /// fts_open options: valid user option mask
-pub const FTS_OPTIONMASK     : c_int    = 0x00ff;
+pub const FTS_OPTIONMASK: c_int = 0x00ff;
 /// fts_open options: (private) child names only
-pub const FTS_NAMEONLY       : c_int    = 0x0100;
+pub const FTS_NAMEONLY: c_int = 0x0100;
 /// fts_open options: (private) unrecoverable error
-pub const FTS_STOP           : c_int    = 0x0200;
+pub const FTS_STOP: c_int = 0x0200;
 
-extern {
+extern "C" {
     /// fts_open() in fts.h
     ///
     /// # C function
     /// ```c
-    /// FTS *fts_open(char * const *path_argv, int options, 
+    /// FTS *fts_open(char * const *path_argv, int options,
     ///               int (*compar)(const FTSENT **, const FTSENT **));
     /// ```
     ///
@@ -139,9 +139,11 @@ extern {
     /// let _fts  = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_open$INODE64")]
-    pub fn fts_open( path_argv: *const *const c_char,
-                     options  : c_int,
-                     compar   : Option<extern "C" fn( *const *const FTSENT, *const *const FTSENT ) -> c_int> ) -> *mut FTS;
+    pub fn fts_open(
+        path_argv: *const *const c_char,
+        options: c_int,
+        compar: Option<extern "C" fn(*const *const FTSENT, *const *const FTSENT) -> c_int>,
+    ) -> *mut FTS;
 
     /// fts_read() in fts.h
     ///
@@ -161,7 +163,7 @@ extern {
     /// let _ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_read$INODE64")]
-    pub fn fts_read( ftsp: *mut FTS ) -> *const FTSENT;
+    pub fn fts_read(ftsp: *mut FTS) -> *const FTSENT;
 
     /// fts_children() in fts.h
     ///
@@ -183,7 +185,7 @@ extern {
     /// let _ftsent = unsafe { fts::ffi::fts_children( fts, 0 ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_children$INODE64")]
-    pub fn fts_children( ftsp: *mut FTS, options: c_int ) -> *const FTSENT;
+    pub fn fts_children(ftsp: *mut FTS, options: c_int) -> *const FTSENT;
 
     /// fts_set() in fts.h
     ///
@@ -208,7 +210,7 @@ extern {
     /// let _      = unsafe { fts::ffi::fts_set( fts, ftsent, fts::ffi::FTS_AGAIN ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_set$INODE64")]
-    pub fn fts_set( ftsp: *mut FTS, f: *const FTSENT, options: c_int ) -> c_int;
+    pub fn fts_set(ftsp: *mut FTS, f: *const FTSENT, options: c_int) -> c_int;
 
     /// fts_close() in fts.h
     ///
@@ -228,7 +230,7 @@ extern {
     /// let _      = unsafe { fts::ffi::fts_close( fts ) };
     /// ```
     #[cfg_attr(target_os = "macos", link_name = "fts_close$INODE64")]
-    pub fn fts_close( ftsp: *mut FTS ) -> c_int;
+    pub fn fts_close(ftsp: *mut FTS) -> c_int;
 }
 
 #[cfg(test)]
@@ -237,57 +239,57 @@ mod test {
     use std::ffi::CString;
     use std::ptr;
 
-    fn ftsent_valid( ftsent: *const FTSENT ) {
+    fn ftsent_valid(ftsent: *const FTSENT) {
         unsafe {
-            assert!( !ftsent               .is_null() );
-            assert!( !(*ftsent).fts_accpath.is_null() );
-            assert!( !(*ftsent).fts_path   .is_null() );
-            assert!(  (*ftsent).fts_pathlen != 0      );
-            assert!(  (*ftsent).fts_namelen != 0      );
-            assert!(  (*ftsent).fts_level   >= -1     );
-            assert!(  (*ftsent).fts_number  == 0      );
-            assert!(  (*ftsent).fts_pointer.is_null() );
-            assert!( !(*ftsent).fts_parent .is_null() );
-            assert!( !(*ftsent).fts_statp  .is_null() );
+            assert!(!ftsent.is_null());
+            assert!(!(*ftsent).fts_accpath.is_null());
+            assert!(!(*ftsent).fts_path.is_null());
+            assert!((*ftsent).fts_pathlen != 0);
+            assert!((*ftsent).fts_namelen != 0);
+            assert!((*ftsent).fts_level >= -1);
+            assert!((*ftsent).fts_number == 0);
+            assert!((*ftsent).fts_pointer.is_null());
+            assert!(!(*ftsent).fts_parent.is_null());
+            assert!(!(*ftsent).fts_statp.is_null());
         }
     }
 
     #[test]
     fn normal() {
         unsafe {
-            let path  = CString::new( "." ).unwrap();
+            let path = CString::new(".").unwrap();
             let paths = vec![path.as_ptr(), ptr::null()];
-            let fts   = fts_open( paths.as_ptr(), 0, None );
-            assert!( !fts.is_null() );
+            let fts = fts_open(paths.as_ptr(), 0, None);
+            assert!(!fts.is_null());
 
-            let mut ftsent = fts_read( fts );
+            let mut ftsent = fts_read(fts);
             while !ftsent.is_null() {
-                ftsent_valid( ftsent );
-                ftsent = fts_read( fts );
+                ftsent_valid(ftsent);
+                ftsent = fts_read(fts);
             }
 
-            let ret = fts_close( fts );
-            assert!( ret == 0 );
+            let ret = fts_close(fts);
+            assert!(ret == 0);
         }
     }
 
     #[test]
     fn children() {
         unsafe {
-            let path  = CString::new( "." ).unwrap();
+            let path = CString::new(".").unwrap();
             let paths = vec![path.as_ptr(), ptr::null()];
-            let fts   = fts_open( paths.as_ptr(), FTS_LOGICAL, None );
-            assert!( !fts.is_null() );
+            let fts = fts_open(paths.as_ptr(), FTS_LOGICAL, None);
+            assert!(!fts.is_null());
 
-            let _ = fts_read( fts );
-            let mut ftsent = fts_children( fts, 0 );
+            let _ = fts_read(fts);
+            let mut ftsent = fts_children(fts, 0);
             while !ftsent.is_null() {
-                ftsent_valid( ftsent );
+                ftsent_valid(ftsent);
                 ftsent = (*ftsent).fts_link;
             }
 
-            let ret = fts_close( fts );
-            assert!( ret == 0 );
+            let ret = fts_close(fts);
+            assert!(ret == 0);
         }
     }
 }
