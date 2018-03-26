@@ -10,6 +10,10 @@ documentation = "http://dalance.github.io/fts-rs/fts"
 keywords = ["libc", "directory", "walk", "recursive", "iterator"]
 exclude = ["test/*"]
 
+[badges]
+travis-ci = { repository = "dalance/fts-rs" }
+codecov   = { repository = "dalance/fts-rs", branch = "master", service = "github" }
+
 [dependencies]
 bitflags       = "0.5.0"
 enum_primitive = "0.1.0"
