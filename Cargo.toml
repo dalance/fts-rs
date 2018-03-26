@@ -1,6 +1,6 @@
 [package]
 name = "fts"
-version = "0.1.5"
+version = "0.1.6-pre"
 authors = ["dalance <dalance@gmail.com>"]
 repository = "https://github.com/dalance/fts-rs"
 license = "MIT"
