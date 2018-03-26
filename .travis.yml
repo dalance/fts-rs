@@ -1,17 +1,9 @@
-sudo: false
-
 language: rust
-
-env:
-  global:
-    - RUST_TEST_THREADS=1
 
 addons:
   apt:
     packages:
-      - libcurl4-openssl-dev
-      - libelf-dev
-      - libdw-dev
+      - libssl-dev
 
 os:
 - linux
@@ -26,14 +18,16 @@ matrix:
   allow_failures:
     - rust: nightly
 
-before_script:
-  - |
-      pip install 'travis-cargo<0.2' --user &&
-      export PATH=$HOME/.local/bin:$PATH
-
 script:
-- make test
+- cargo test -- --test-threads=1
 
 after_success:
-  - travis-cargo coveralls --no-sudo
+    if [[ $TRAVIS_OS_NAME == "linux" ]]; then
+        bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
+        # Uncomment the following line for coveralls.io
+        # cargo tarpaulin --ciserver travis-ci --coveralls $TRAVIS_JOB_ID
 
+        # Uncomment the following two lines create and upload a report for codecov.io
+        cargo tarpaulin --out Xml -- --test-threads=1
+        bash <(curl -s https://codecov.io/bash)
+    fi
