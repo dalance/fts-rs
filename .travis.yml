@@ -21,7 +21,7 @@ matrix:
 script:
 - cargo test -- --test-threads=1
 
-after_success:
+after_success: |
     if [[ $TRAVIS_OS_NAME == "linux" ]]; then
         bash <(curl https://raw.githubusercontent.com/xd009642/tarpaulin/master/travis-install.sh)
         # Uncomment the following line for coveralls.io
