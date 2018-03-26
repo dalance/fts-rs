@@ -1,8 +1,8 @@
 # fts-rs
 
 [![Build Status](https://travis-ci.org/dalance/fts-rs.svg?branch=master)](https://travis-ci.org/dalance/fts-rs)
-[![Crates.io](https://img.shields.io/crates/v/fts-rs.svg)](https://crates.io/crates/fts-rs)
-[![Docs.rs](https://docs.rs/fts-rs/badge.svg)](https://docs.rs/fts-rs)
+[![Crates.io](https://img.shields.io/crates/v/fts.svg)](https://crates.io/crates/fts)
+[![Docs.rs](https://docs.rs/fts/badge.svg)](https://docs.rs/fts)
 [![codecov](https://codecov.io/gh/dalance/fts-rs/branch/master/graph/badge.svg)](https://codecov.io/gh/dalance/fts-rs)
 
 A Rust library for high performance directory walking using libc fts.
