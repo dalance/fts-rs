@@ -7,7 +7,7 @@
 
 A Rust library for high performance directory walking using libc fts.
 
-[Documentation](https://docs.rs/fts-rs)
+[Documentation](https://docs.rs/fts)
 
 ## Usage
 
