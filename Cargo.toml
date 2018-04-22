@@ -8,6 +8,7 @@ readme = "README.md"
 description = "A Rust library for high performance directory walking using libc fts"
 keywords = ["libc", "directory", "walk", "recursive", "iterator"]
 exclude = ["test_data/*"]
+build = "build.rs"
 
 [badges]
 travis-ci = { repository = "dalance/fts-rs" }

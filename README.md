@@ -20,9 +20,9 @@ fts = "0.1.6"
 
 Use `WalkDir` for directory walking:
 
-```rust,no_run
+```rust,skt-default
 use std::path::Path;
-use fts::walkdir::{WalkDir, WalkDirConf}
+use fts::walkdir::{WalkDir, WalkDirConf};
 
 let path = Path::new( "." );
 for p in WalkDir::new( WalkDirConf::new( path ) ) {
@@ -30,14 +30,14 @@ for p in WalkDir::new( WalkDirConf::new( path ) ) {
 }
 ```
 
-Call fts_* function directly:
+Call `fts_*` function directly:
 
-```rust,no_run
+```rust,skt-default
 use std::ffi::CString;
 use fts::ffi::{fts_open, fts_read, fts_close, FTS_LOGICAL};
 
-let path    = CString::new( "." ).unwrap().as_ptr();
-let paths   = vec![path, std::ptr::null()];
+let path    = CString::new( "." ).unwrap();
+let paths   = vec![path.as_ptr(), std::ptr::null()];
 let fts     = unsafe { fts_open ( paths.as_ptr(), FTS_LOGICAL, None ) };
 let _ftsent = unsafe { fts_read ( fts ) };
 let _       = unsafe { fts_close( fts ) };
