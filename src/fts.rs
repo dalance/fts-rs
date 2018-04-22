@@ -371,23 +371,23 @@ mod test {
     use std::path::PathBuf;
 
     fn check_entry(entry: FtsEntry, is_logical: bool) {
-        if entry.path == PathBuf::from("test") {
+        if entry.path == PathBuf::from("test_data") {
             assert!(entry.info == FtsInfo::IsDir || entry.info == FtsInfo::IsDirPost);
             assert_eq!(entry.level, 0);
         }
-        if entry.path == PathBuf::from("test/file") {
+        if entry.path == PathBuf::from("test_data/file") {
             assert!(entry.info == FtsInfo::IsFile);
             assert_eq!(entry.level, 1);
         }
-        if entry.path == PathBuf::from("test/dir") {
+        if entry.path == PathBuf::from("test_data/dir") {
             assert!(entry.info == FtsInfo::IsDir || entry.info == FtsInfo::IsDirPost);
             assert_eq!(entry.level, 1);
         }
-        if entry.path == PathBuf::from("test/dir/file") {
+        if entry.path == PathBuf::from("test_data/dir/file") {
             assert!(entry.info == FtsInfo::IsFile);
             assert_eq!(entry.level, 2);
         }
-        if entry.path == PathBuf::from("test/link_file") {
+        if entry.path == PathBuf::from("test_data/link_file") {
             if is_logical {
                 assert!(entry.info == FtsInfo::IsFile);
             } else {
@@ -395,7 +395,7 @@ mod test {
             }
             assert_eq!(entry.level, 1);
         }
-        if entry.path == PathBuf::from("test/link_none") {
+        if entry.path == PathBuf::from("test_data/link_none") {
             if is_logical {
                 assert!(entry.info == FtsInfo::IsSymlinkNone);
             } else {
@@ -403,11 +403,11 @@ mod test {
             }
             assert_eq!(entry.level, 1);
         }
-        if entry.path == PathBuf::from("test/cyclic") {
+        if entry.path == PathBuf::from("test_data/cyclic") {
             assert!(entry.info == FtsInfo::IsDir || entry.info == FtsInfo::IsDirPost);
             assert_eq!(entry.level, 1);
         }
-        if entry.path == PathBuf::from("test/cyclic/cyclic") {
+        if entry.path == PathBuf::from("test_data/cyclic/cyclic") {
             if is_logical {
                 assert!(entry.info == FtsInfo::IsDirCyclic);
             } else {
@@ -415,7 +415,7 @@ mod test {
             }
             assert_eq!(entry.level, 2);
         }
-        if entry.path == PathBuf::from("test/dir2") {
+        if entry.path == PathBuf::from("test_data/dir2") {
             assert!(
                 entry.info == FtsInfo::IsDir || entry.info == FtsInfo::IsDirPost
                     || entry.info == FtsInfo::IsDontRead
@@ -432,9 +432,9 @@ mod test {
 
     #[test]
     fn logical() {
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
-        let paths = vec![String::from("test")];
+        let paths = vec![String::from("test_data")];
         let mut fts = Fts::new(paths, fts_option::LOGICAL, None).unwrap();
 
         let mut ftsent = fts.read();
@@ -447,14 +447,14 @@ mod test {
         }
         assert_eq!(i, 23);
 
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0o755));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0o755));
     }
 
     #[test]
     fn physical() {
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
-        let paths = vec![String::from("test")];
+        let paths = vec![String::from("test_data")];
         let mut fts = Fts::new(paths, fts_option::PHYSICAL, None).unwrap();
 
         let mut ftsent = fts.read();
@@ -467,12 +467,12 @@ mod test {
         }
         assert_eq!(i, 23);
 
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0o755));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0o755));
     }
 
     #[test]
     fn sort() {
-        let paths = vec![String::from("test/sort")];
+        let paths = vec![String::from("test_data/sort")];
         let mut fts =
             Fts::new(paths, fts_option::LOGICAL, Some(FtsComp::by_name_ascending)).unwrap();
         //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_descending ) ).unwrap();
@@ -488,7 +488,7 @@ mod test {
 
     #[test]
     fn path_with_null() {
-        let paths = vec![String::from("test\0/sort")];
+        let paths = vec![String::from("test_data\0/sort")];
         let fts = Fts::new(paths, fts_option::LOGICAL, None);
         match fts {
             Err(FtsError::PathWithNull) => assert!(true),

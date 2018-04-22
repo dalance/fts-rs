@@ -6,7 +6,7 @@
 //! ```
 //! # use std::path::Path;
 //! # use fts::walkdir::{WalkDir, WalkDirConf};
-//! let path = Path::new( "test" );
+//! let path = Path::new( "test_data" );
 //! for p in WalkDir::new( WalkDirConf::new( path ) ) {
 //!     println!( "{:?}", p.unwrap() );
 //! }
@@ -18,7 +18,7 @@
 //! ```
 //! # use std::path::Path;
 //! # use fts::walkdir::{WalkDir, WalkDirConf};
-//! let path = Path::new( "test" );
+//! let path = Path::new( "test_data" );
 //! for p in WalkDir::new( WalkDirConf::new( path ).follow_symlink() ) {
 //!     println!( "{:?}", p.unwrap() );
 //! }
@@ -29,7 +29,7 @@
 //! ```
 //! # use std::path::Path;
 //! # use fts::walkdir::{WalkDir, WalkDirConf};
-//! let path = Path::new( "test" );
+//! let path = Path::new( "test_data" );
 //! for p in WalkDir::new( WalkDirConf::new( path ).no_metadata() ) {
 //!     println!( "{:?}", p.unwrap() );
 //! }
@@ -41,7 +41,7 @@
 //! ```
 //! # use std::path::Path;
 //! # use fts::walkdir::{WalkDir, WalkDirConf};
-//! let path = Path::new( "test" );
+//! let path = Path::new( "test_data" );
 //! for p in WalkDir::new( WalkDirConf::new( path ).sort_by_ctime().sort_ascending() ) {
 //!     println!( "{:?}", p.unwrap() );
 //! }
@@ -412,9 +412,9 @@ mod test {
 
     #[test]
     fn normal() {
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
-        let path = Path::new("test");
+        let path = Path::new("test_data");
         let iter = WalkDir::new(WalkDirConf::new(path))
             .into_iter()
             .filter_map(|x| x.ok());
@@ -424,14 +424,14 @@ mod test {
         }
         assert_eq!(cnt, 22);
 
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0o755));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0o755));
     }
 
     #[test]
     fn filter() {
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
-        let path = Path::new("test");
+        let path = Path::new("test_data");
         let iter = WalkDir::new(WalkDirConf::new(path))
             .into_iter()
             .filter_map(|x| x.ok());
@@ -444,12 +444,12 @@ mod test {
         assert_eq!(cnt, 10);
         assert_eq!(len, 150);
 
-        let _ = set_permissions("test/dir2", Permissions::from_mode(0o755));
+        let _ = set_permissions("test_data/dir2", Permissions::from_mode(0o755));
     }
 
     #[test]
     fn no_stat() {
-        let path = Path::new("test");
+        let path = Path::new("test_data");
         let iter = WalkDir::new(WalkDirConf::new(path).no_metadata())
             .into_iter()
             .filter_map(|x| x.ok());
@@ -471,7 +471,7 @@ mod test {
 
     #[test]
     fn sort() {
-        let path = Path::new("test/sort");
+        let path = Path::new("test_data/sort");
         {
             let conf = WalkDirConf::new(path).sort_by_name().sort_ascending();
             let mut iter = WalkDir::new(conf)
@@ -511,7 +511,7 @@ mod test {
 
     #[test]
     fn sort_time() {
-        let path = Path::new("test/sort");
+        let path = Path::new("test_data/sort");
         {
             let conf = WalkDirConf::new(path).sort_by_atime().sort_ascending();
             for _ in WalkDir::new(conf) {}

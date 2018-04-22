@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 description = "A Rust library for high performance directory walking using libc fts"
 keywords = ["libc", "directory", "walk", "recursive", "iterator"]
-exclude = ["test/*"]
+exclude = ["test_data/*"]
 
 [badges]
 travis-ci = { repository = "dalance/fts-rs" }
