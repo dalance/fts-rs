@@ -25,7 +25,7 @@ skeptic        = "0.13"
 
 [dev-dependencies]
 skeptic        = "0.13"
-walkdir        = "0.1.5"
+walkdir        = "2.3.1"
 
 [package.metadata.release]
 dev-version-ext            = "pre"
