@@ -1,6 +1,8 @@
 //! A wrapper library of libc fts.
 
 use ffi;
+use libc::{c_int, c_long, stat};
+use num::FromPrimitive;
 use std::cmp::Ordering;
 use std::ffi::{CString, OsStr};
 use std::fmt;
@@ -9,8 +11,6 @@ use std::os::unix::ffi::OsStrExt;
 use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use std::{mem, ptr, slice};
-use libc::{c_int, c_long, stat};
-use num::FromPrimitive;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // enum
@@ -417,7 +417,8 @@ mod test {
         }
         if entry.path == PathBuf::from("test_data/dir2") {
             assert!(
-                entry.info == FtsInfo::IsDir || entry.info == FtsInfo::IsDirPost
+                entry.info == FtsInfo::IsDir
+                    || entry.info == FtsInfo::IsDirPost
                     || entry.info == FtsInfo::IsDontRead
             );
             if entry.info == FtsInfo::IsDontRead {

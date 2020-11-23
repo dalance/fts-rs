@@ -1,3 +1,5 @@
+#![doc(html_root_url = "https://docs.rs/fts")]
+
 #[macro_use]
 extern crate bitflags;
 #[macro_use]

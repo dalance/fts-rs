@@ -48,12 +48,12 @@
 //! ```
 //!
 
+use fts::{fts_option, Fts, FtsComp, FtsCompFunc, FtsEntry, FtsInfo};
 use std::ffi::OsStr;
 use std::fmt;
 use std::fs::Metadata;
 use std::io::Error;
 use std::path::Path;
-use fts::{fts_option, Fts, FtsComp, FtsCompFunc, FtsEntry, FtsInfo};
 
 // ---------------------------------------------------------------------------------------------------------------------
 // DirEntry
@@ -117,7 +117,8 @@ pub struct FileType {
 impl FileType {
     /// Test whether this file type represents a directory.
     pub fn is_dir(&self) -> bool {
-        self.info == FtsInfo::IsDir || self.info == FtsInfo::IsDirCyclic
+        self.info == FtsInfo::IsDir
+            || self.info == FtsInfo::IsDirCyclic
             || self.info == FtsInfo::IsDirPost
     }
 
@@ -148,7 +149,8 @@ impl Iterator for Iter {
         let ret = self.fts.read();
         if ret.is_some() {
             let ent = ret.unwrap();
-            if ent.info == FtsInfo::IsErr || ent.info == FtsInfo::IsDontRead
+            if ent.info == FtsInfo::IsErr
+                || ent.info == FtsInfo::IsDontRead
                 || ent.info == FtsInfo::IsNoStat
             {
                 Some(Err(Error::from_raw_os_error(ent.error)))

@@ -4,8 +4,8 @@ pub extern crate fts;
 pub extern crate test;
 pub extern crate walkdir;
 
-use std::path::PathBuf;
 use std::fs;
+use std::path::PathBuf;
 use test::Bencher;
 
 // ---------------------------------------------------------------------------------------------------------------------
