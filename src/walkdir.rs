@@ -299,27 +299,27 @@ impl WalkDir {
     /// Create new `WalkDir` configured by specified `WalkDirConf`.
     pub fn new(conf: WalkDirConf) -> Self {
         let mut option = if conf.follow_symlink {
-            fts_option::LOGICAL
+            fts_option::Flags::LOGICAL
         } else {
-            fts_option::PHYSICAL
+            fts_option::Flags::PHYSICAL
         };
         option = if conf.cross_device {
-            option | fts_option::XDEV
+            option | fts_option::Flags::XDEV
         } else {
             option
         };
         option = if conf.include_dot {
-            option | fts_option::SEEDOT
+            option | fts_option::Flags::SEEDOT
         } else {
             option
         };
         option = if conf.no_metadata {
-            option | fts_option::NOSTAT
+            option | fts_option::Flags::NOSTAT
         } else {
             option
         };
         option = if conf.no_chdir {
-            option | fts_option::NOCHDIR
+            option | fts_option::Flags::NOCHDIR
         } else {
             option
         };
@@ -581,5 +581,4 @@ mod test {
             for _ in WalkDir::new(conf) {}
         }
     }
-
 }

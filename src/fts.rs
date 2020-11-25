@@ -18,21 +18,21 @@ use std::{mem, ptr, slice};
 
 pub mod fts_option {
     bitflags! {
-        pub flags Flags: u32 {
+        pub struct Flags: u32 {
             /// follow command line symlinks
-            const COMFOLLOW = 0x0001,
+            const COMFOLLOW = 0x0001;
             /// logical walk
-            const LOGICAL   = 0x0002,
+            const LOGICAL   = 0x0002;
             /// don't change directories
-            const NOCHDIR   = 0x0004,
+            const NOCHDIR   = 0x0004;
             /// don't get stat info
-            const NOSTAT    = 0x0008,
+            const NOSTAT    = 0x0008;
             /// physical walk
-            const PHYSICAL  = 0x0010,
+            const PHYSICAL  = 0x0010;
             /// return dot and dot-dot
-            const SEEDOT    = 0x0020,
+            const SEEDOT    = 0x0020;
             /// don't cross devices
-            const XDEV      = 0x0040,
+            const XDEV      = 0x0040;
         }
     }
 }
@@ -149,7 +149,7 @@ impl Fts {
 
     pub fn read(&mut self) -> Option<FtsEntry> {
         let ent = unsafe { ffi::fts_read(self.fts) };
-        let is_no_stat = self.opt.contains(fts_option::NOSTAT);
+        let is_no_stat = self.opt.contains(fts_option::Flags::NOSTAT);
 
         Fts::to_fts_entry(ent, is_no_stat)
     }
@@ -436,7 +436,7 @@ mod test {
         let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
         let paths = vec![String::from("test_data")];
-        let mut fts = Fts::new(paths, fts_option::LOGICAL, None).unwrap();
+        let mut fts = Fts::new(paths, fts_option::Flags::LOGICAL, None).unwrap();
 
         let mut ftsent = fts.read();
         let mut i = 0;
@@ -456,7 +456,7 @@ mod test {
         let _ = set_permissions("test_data/dir2", Permissions::from_mode(0));
 
         let paths = vec![String::from("test_data")];
-        let mut fts = Fts::new(paths, fts_option::PHYSICAL, None).unwrap();
+        let mut fts = Fts::new(paths, fts_option::Flags::PHYSICAL, None).unwrap();
 
         let mut ftsent = fts.read();
         let mut i = 0;
@@ -474,10 +474,12 @@ mod test {
     #[test]
     fn sort() {
         let paths = vec![String::from("test_data/sort")];
-        let mut fts =
-            Fts::new(paths, fts_option::LOGICAL, Some(FtsComp::by_name_ascending)).unwrap();
-        //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_name_descending ) ).unwrap();
-        //let mut fts = Fts::new( paths, fts_option::LOGICAL, Some( FtsComp::by_atime_ascending ) ).unwrap();
+        let mut fts = Fts::new(
+            paths,
+            fts_option::Flags::LOGICAL,
+            Some(FtsComp::by_name_ascending),
+        )
+        .unwrap();
 
         let mut ftsent = fts.read();
         while ftsent.is_some() {
@@ -490,11 +492,10 @@ mod test {
     #[test]
     fn path_with_null() {
         let paths = vec![String::from("test_data\0/sort")];
-        let fts = Fts::new(paths, fts_option::LOGICAL, None);
+        let fts = Fts::new(paths, fts_option::Flags::LOGICAL, None);
         match fts {
             Err(FtsError::PathWithNull) => assert!(true),
             _ => assert!(false),
         }
     }
-
 }

@@ -15,17 +15,17 @@ travis-ci = { repository = "dalance/fts-rs" }
 codecov   = { repository = "dalance/fts-rs", branch = "master", service = "github" }
 
 [dependencies]
-bitflags       = "0.5.0"
-enum_primitive = "0.1.0"
-libc           = "0.2.8"
-num            = "0.1.31"
+bitflags       = "1"
+enum_primitive = "0.1"
+libc           = "0.2"
+num            = "0.3"
 
 [build-dependencies]
 skeptic        = "0.13"
 
 [dev-dependencies]
 skeptic        = "0.13"
-walkdir        = "0.1.5"
+walkdir        = "2"
 
 [package.metadata.release]
 dev-version-ext            = "pre"
