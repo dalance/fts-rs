@@ -18,7 +18,7 @@ codecov   = { repository = "dalance/fts-rs", branch = "master", service = "githu
 bitflags       = "1"
 enum_primitive = "0.1"
 libc           = "0.2"
-num            = "0.3"
+num            = "0.4"
 
 [build-dependencies]
 skeptic        = "0.13"
