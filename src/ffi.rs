@@ -138,7 +138,8 @@ extern "C" {
     /// let paths = vec![path.as_ptr(), std::ptr::null()];
     /// let _fts  = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// ```
-    #[cfg_attr(target_os = "macos", link_name = "fts_open$INODE64")]
+    #[cfg_attr(all(target_os = "macos", not(target_arch="aarch64")), link_name = "fts_open$INODE64")]
+    #[cfg_attr(all(target_os = "macos", target_arch="aarch64"), link_name = "fts_open")]
     pub fn fts_open(
         path_argv: *const *const c_char,
         options: c_int,
@@ -162,7 +163,8 @@ extern "C" {
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// ```
-    #[cfg_attr(target_os = "macos", link_name = "fts_read$INODE64")]
+    #[cfg_attr(all(target_os = "macos", not(target_arch="aarch64")), link_name = "fts_read$INODE64")]
+    #[cfg_attr(all(target_os = "macos", target_arch="aarch64"), link_name = "fts_read")]
     pub fn fts_read(ftsp: *mut FTS) -> *const FTSENT;
 
     /// fts_children() in fts.h
@@ -184,7 +186,8 @@ extern "C" {
     /// let fts     = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _ftsent = unsafe { fts::ffi::fts_children( fts, 0 ) };
     /// ```
-    #[cfg_attr(target_os = "macos", link_name = "fts_children$INODE64")]
+    #[cfg_attr(all(target_os = "macos", not(target_arch="aarch64")), link_name = "fts_children$INODE64")]
+    #[cfg_attr(all(target_os = "macos", target_arch="aarch64"), link_name = "fts_children")]
     pub fn fts_children(ftsp: *mut FTS, options: c_int) -> *const FTSENT;
 
     /// fts_set() in fts.h
@@ -209,7 +212,8 @@ extern "C" {
     /// let ftsent = unsafe { fts::ffi::fts_read( fts ) };
     /// let _      = unsafe { fts::ffi::fts_set( fts, ftsent, fts::ffi::FTS_AGAIN ) };
     /// ```
-    #[cfg_attr(target_os = "macos", link_name = "fts_set$INODE64")]
+    #[cfg_attr(all(target_os = "macos", not(target_arch="aarch64")), link_name = "fts_set$INODE64")]
+    #[cfg_attr(all(target_os = "macos", target_arch="aarch64"), link_name = "fts_set")]
     pub fn fts_set(ftsp: *mut FTS, f: *const FTSENT, options: c_int) -> c_int;
 
     /// fts_close() in fts.h
@@ -229,7 +233,8 @@ extern "C" {
     /// let fts    = unsafe { fts::ffi::fts_open( paths.as_ptr(), fts::ffi::FTS_LOGICAL, None ) };
     /// let _      = unsafe { fts::ffi::fts_close( fts ) };
     /// ```
-    #[cfg_attr(target_os = "macos", link_name = "fts_close$INODE64")]
+    #[cfg_attr(all(target_os = "macos", not(target_arch="aarch64")), link_name = "fts_close$INODE64")]
+    #[cfg_attr(all(target_os = "macos", target_arch="aarch64"), link_name = "fts_close")]
     pub fn fts_close(ftsp: *mut FTS) -> c_int;
 }
 
