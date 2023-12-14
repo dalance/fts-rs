@@ -15,7 +15,7 @@ travis-ci = { repository = "dalance/fts-rs" }
 codecov   = { repository = "dalance/fts-rs", branch = "master", service = "github" }
 
 [dependencies]
-bitflags       = "1"
+bitflags       = "2"
 enum_primitive = "0.1"
 libc           = "0.2"
 num            = "0.4"
